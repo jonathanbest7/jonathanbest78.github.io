@@ -145,7 +145,7 @@
 <p>进入了这个jeff的后台</p>
 <p>然后折腾了半天</p>
 <p>发现</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211116202457607.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211116202457607.png"></p>
 <p>呜呜呜</p>
 <p>没数据</p>
 <p>发现得在密码里面注入了</p>
@@ -153,27 +153,27 @@
 <p>在第5个的时候出现no data</p>
 <p>所以判断4个（没截图到呜呜呜）</p>
 <p>然后再用union select来把</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211116202518190.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211116202518190.png"></p>
 <p>爆出来</p>
 <p>那就改12</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211116202543768.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211116202543768.png"></p>
 <p>-1’ union select 1,database(),3,4#然后又查这个 发现 no data</p>
 <p>呜呜呜我麻了</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211116202611396.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211116202611396.png"></p>
 <p>发现查1也可以</p>
 <p>-1’ union select (select group_concat(table_name) from information_schema.tables where</p>
 <p>table_schema=’babysql‘),2,3,4#</p>
 <p>百度到要在外面加个括号</p>
 <p>出来了</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211116202629354.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211116202629354.png"></p>
 <p>这个</p>
-<p><img src="/2021/12/01/geek/image-20211116202643962.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211116202643962.png"></p>
 <p>-1’ union select (select group_concat(column_name) from information_schema.columns where</p>
 <p>table_name=’jeff’),2,3,4#</p>
 <p>看jeff这个表</p>
 <p>出现了这么多列</p>
 <p>一个个查呜呜呜</p>
-<p><img src="/2021/12/01/geek/image-20211116202702300.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211116202702300.png"></p>
 <p>一通操作发现</p>
 <p>tm 这个flag根本不在这个库</p>
 <p>呜呜呜一切重新开始</p>
@@ -182,20 +182,20 @@
 <p>想到我们是要找flag 所以干脆死马当活马医</p>
 <p>结果</p>
 <p>真特么</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211116202723104.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211116202723104.png"></p>
 <p>笑死</p>
 <p>然后继续查</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211116202740444.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211116202740444.png"></p>
 <p>真尼玛离谱</p>
 <p>不会真出来了吧</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211116202755589.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211116202755589.png"></p>
 <p>好耶！</p>
 <p>泪目</p>
-<h2 id="4where-is-my-FUMO"><a href="#4where-is-my-FUMO" class="headerlink" title="4where_is_my_FUMO"></a><strong>4where_is_my_FUMO</strong></h2><p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211116202824925.png" alt="avatar"></p>
+<h2 id="4where-is-my-FUMO"><a href="#4where-is-my-FUMO" class="headerlink" title="4where_is_my_FUMO"></a><strong>4where_is_my_FUMO</strong></h2><p><img src="/2021/12/01/geek/image-20211116202824925.png"></p>
 <p>发现了这个</p>
 <p>笑死</p>
 <p>卡死</p>
-<h2 id="5babyPOP"><a href="#5babyPOP" class="headerlink" title="5babyPOP"></a><strong>5babyPOP</strong></h2><p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211116202846686.png" alt="avatar"></p>
+<h2 id="5babyPOP"><a href="#5babyPOP" class="headerlink" title="5babyPOP"></a><strong>5babyPOP</strong></h2><p><img src="/2021/12/01/geek/image-20211116202846686.png"></p>
 <p>有unserialize函数且参数可控</p>
 <p>在C这个类中有__wakeup的方法</p>
 <p>在D这个类中有__invoke方法</p>
@@ -262,15 +262,15 @@ $this->var=new d();
 
 echo urlencode(base64_encode(serialize(new e())));
 
-![avatar](C:\blog\source\_posts\geek\image-20211116202912390.png)
+![](geek/image-20211116202912390.png)
 
-得到这个![avatar](C:\blog\source\_posts\geek\image-20211116202925676.png)
+得到这个![](geek/image-20211116202925676.png)
 
 但是没回显离谱
 
 百度发现需要requests
 
-![avatar](C:\blog\source\_posts\geek\image-20211116202940819.png)
+![](geek/image-20211116202940819.png)
 
 ## 6**babyphp**
 
@@ -280,19 +280,19 @@ echo urlencode(base64_encode(serialize(new e())));
 
 
 
-![avatar](C:\blog\source\_posts\geek\image-20211116202953433.png)
+![](geek/image-20211116202953433.png)
 
 拉到最下面发现有个这个
 
 打开robots.txt
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203027403.png)
+![](geek/image-20211116203027403.png)
 
 是个php
 
 打开看看
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203045721.png)
+![](geek/image-20211116203045721.png)
 
 发现提示
 
@@ -308,7 +308,7 @@ mad
 
 全是卡在php上面
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203059857.png)
+![](geek/image-20211116203059857.png)
 
 草 一种植物
 
@@ -320,7 +320,7 @@ mad
 
 打开是个
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203119364.png)
+![](geek/image-20211116203119364.png)
 
 讲我们要的是九号
 
@@ -336,7 +336,7 @@ mad
 
 可以去改源代码试试看
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203139444.png)
+![](geek/image-20211116203139444.png)
 
 图片上本没有九
 
@@ -350,21 +350,21 @@ mad
 
 登录失败
 
-![image-20211116203154144](C:\Users\86159\AppData\Roaming\Typora\typora-user-images\image-20211116203154144.png
+![](geek/image-20211116203154144.png)
 
 进了一个这样的
 
 试试抓包
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203210289.png)
+![](geek/image-20211116203210289.png)
 
 发现有个Jwt
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203225880.png)
+![](geek/image-20211116203225880.png)
 
 去学习了之后
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203237461.png)
+![](geek/image-20211116203237461.png)
 
 发现是这样
 
@@ -374,19 +374,19 @@ mad
 
 那咋办
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203255616.png)
+![](geek/image-20211116203255616.png)
 
 去官网试试
 
 我们去看看
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203312546.png)
+![](geek/image-20211116203312546.png)
 
 要改成19年的
 
 咋改呢
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203323635.png)
+![](geek/image-20211116203323635.png)
 
 好像这里可以输入密码
 
@@ -394,13 +394,13 @@ hashcat破解
 
 得到私钥为
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203338752.png)
+![](geek/image-20211116203338752.png)
 
 然后咋搞呢
 
 我想让原来的页面变成2019的
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203356160.png)
+![](geek/image-20211116203356160.png)
 
 没反应
 
@@ -410,23 +410,23 @@ hashcat破解
 
 发现
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203407300.png)
+![](geek/image-20211116203407300.png)
 
 尽管来到了2019,我还是一个假的admin.jpg
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203427699.png)
+![](geek/image-20211116203427699.png)
 
 
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203440252.png)
+![](geek/image-20211116203440252.png)
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203449073.png)
+![](geek/image-20211116203449073.png)
 
 ## 9**babyxss**
 
 先看看随便一个JS语句能不能用
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203501842.png)
+![](geek/image-20211116203501842.png)
 
 提示被标记
 
@@ -434,17 +434,17 @@ hashcat破解
 
 进去后发现
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203521210.png)
+![](geek/image-20211116203521210.png)
 
 alert被过滤
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203536640.png)
+![](geek/image-20211116203536640.png)
 
 需双写绕过
 
 再继续
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203557053.png)
+![](geek/image-20211116203557053.png)
 
 发现一加入就会报错
 
@@ -454,7 +454,7 @@ alert被过滤
 
 把变成<\ script>
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203614017.png)
+![](geek/image-20211116203614017.png)
 
 并不行
 
@@ -466,7 +466,7 @@ alert被过滤
 
 得到flag
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203627388.png)
+![](geek/image-20211116203627388.png)
 
 Server response: 'Syc{W4lc0me_t0_the_w0rld_0f_x3s.}'. 
 
@@ -492,21 +492,21 @@ x为jin，y为Wei
 
 先进来
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203744885.png)
+![](geek/image-20211116203744885.png)
 
 代码要求是要password大于9999还要弱类型
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203800895.png)
+![](geek/image-20211116203800895.png)
 
 然后输入11337a 因为之前是1337所以这次直接加个1
 
 查看源代码
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203816852.png)
+![](geek/image-20211116203816852.png)
 
 有下一个Php
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203828178.png)
+![](geek/image-20211116203828178.png)
 
 进去后
 
@@ -518,7 +518,7 @@ x为jin，y为Wei
 
 所以就数组绕过
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203847285.png)
+![](geek/image-20211116203847285.png)
 
 这次检测了数组了
 
@@ -648,7 +648,7 @@ F%53%54%59%4C%45%3E%3C%48%31%3E%26%23%78%31%66%36%34%38%3B%3C%2F%48%31%3E%22%3B%
 
 9%70%74%3E%0A%0A
 
-![avatar](C:\blog\source\_posts\geek\image-20211116203951455.png)
+![](geek/image-20211116203951455.png)
 
 打开后发现要让id=longlone
 
@@ -656,21 +656,21 @@ F%53%54%59%4C%45%3E%3C%48%31%3E%26%23%78%31%66%36%34%38%3B%3C%2F%48%31%3E%22%3B%
 
 因为浏览器会编码一次
 
-![avatar](C:\blog\source\_posts\geek\image-20211116204006588.png)
+![](geek/image-20211116204006588.png)
 
 flag{PHP_1s_fu1king_awesome}
 
 **12吊毛验证码**
 
-![avatar](C:\blog\source\_posts\geek\image-20211116204026006.png)
+![](geek/image-20211116204026006.png)
 
-![avatar](C:\blog\source\_posts\geek\image-20211116204035415.png)
+![](geek/image-20211116204035415.png)
 
-![avatar](C:\blog\source\_posts\geek\image-20211116204046712.png)
+![](geek/image-20211116204046712.png)
 
 
 
-![avatar](C:\blog\source\_posts\geek\image-20211116204057603.png)
+![](geek/image-20211116204057603.png)
 
 
 
@@ -682,15 +682,15 @@ flag{PHP_1s_fu1king_awesome}
 
 floor报错注入
 
-![avatar](C:\blog\source\_posts\geek\image-20211116204119673.png)
+![](geek/image-20211116204119673.png)
 
 百度一个payload
 
-![avatar](C:\blog\source\_posts\geek\image-20211116204133599.png)
+![](geek/image-20211116204133599.png)
 
 
 
-![avatar](C:\blog\source\_posts\geek\image-20211116204141347.png)
+![](geek/image-20211116204141347.png)
 
 
 
@@ -700,23 +700,23 @@ Duplicate entry 'global_status~0' for key '<group_key>'
 
 Duplicate entry 'COLLATION_NAME~1' for key '<group_key>'
 
-![avatar](C:\blog\source\_posts\geek\image-20211116204158959.png)
+![](geek/image-20211116204158959.png)
 
 
 
-![avatar](C:\blog\source\_posts\geek\image-20211116204207417.png)
+![](geek/image-20211116204207417.png)
 
 ~id~1
 
-![avatar](C:\blog\source\_posts\geek\image-20211116204219783.png)
+![](geek/image-20211116204219783.png)
 
 Duplicate entry '~1~1' for key '<group_key>
 
-![avatar](C:\blog\source\_posts\geek\image-20211116204235611.png)
+![](geek/image-20211116204235611.png)
 
 
 
-![avatar](C:\blog\source\_posts\geek\image-20211116204243471.png)
+![](geek/image-20211116204243471.png)
 
 uplicate entry '~SYC{U_4N0vv_3rR0r_Inj3c410n}~1' for key '<group_key 1 -1 'union select (select from(select count(*),concat((select concat(table_name,0x7e)),floor(rand(0)*2))x from information_schema.tables group by x)a),2,3,4 #global_status~0 concat(column_name,0x7e)),floor(rand(0)*2))x information_schema.columns # duplicate entry 'collation_name~1' for key '<group_key> 
 
@@ -924,62 +924,62 @@ curl_close($ch);
 <p>简单说一下过程，输入的flag应该是32位将32位字符转换成十进制，在经过aaaaaa，bbbbbbbbb，ccccccccc这三个函数，最后进行比较。那么我们现在有tttttt这个值就可逆向出来我们想要的flag了。</p>
 <p>先通过aaaaa这个函数把whatbox解出来，虽然能从这个函数看出这应该是RC4编写的！</p>
 <p>在逆向时，应把函数定义去掉，带着函数定义做是不明智的选择！</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211113142820637.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211113142837320.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211113142820637.png"></p>
+<p><img src="/2021/12/01/geek/image-20211113142837320.png"></p>
 <h3 id="2-new-language"><a href="#2-new-language" class="headerlink" title="2.new_language"></a>2.<strong>new_language</strong></h3><p>这是一道c#的题，这次逆向感觉很怪，出的都是各种别的语言的逆向，但本质就是找一个软件给他搞成c语言，这个也不例外，我们用dnspy这个软件，将文件在软件中打开</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115202339717.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115202339717.png"></p>
 <p>进入main函数</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115202405129.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115202416267.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115202405129.png"></p>
+<p><img src="/2021/12/01/geek/image-20211115202416267.png"></p>
 <p>简单分析一下：</p>
 <p>flag的长度是38，然后给出flag格式，然后进入循环加密</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115202823571.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115202823571.png"></p>
 <p>加密完再进行比较，其中加密这一步经过我多次改代码发现当sbox下标与i是一致时，答案正确，但为什么还是有些不太清楚，还得再看看巨佬们写的wp，接下来就就可以写脚本了！</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115204404594.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115204426830.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115204404594.png"></p>
+<p><img src="/2021/12/01/geek/image-20211115204426830.png"></p>
 <p>加上外套即可！</p>
 <p>3.<strong>珍惜生命</strong></p>
 <p>源码按照上面一道题的规则可以搞出来</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114001054680.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114001054680.png"></p>
 <p>我们讲解一下本题思路，输入flag和key，将给定的key进行加密，得到新的KEY，再用KEY与tmp做运算，之后对比给定flag是否一致。这么复杂的key加密肯定是要用我们z3库的了！</p>
 <p>给出脚本</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114001438411.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114001438411.png"></p>
 <p>接下来，解出key</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114001539130.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114001539130.png"></p>
 <p>排一下序得到key，我们接下来给出flag脚本：</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114001656859.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114001721440.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114001656859.png"></p>
+<p><img src="/2021/12/01/geek/image-20211114001721440.png"></p>
 <p>得到flag前后记得加SYC{}</p>
 <p>学到了在python中[a:b],是下标从a到b，左闭右开！</p>
 <p>SYC{W3$c0m3_T0_th3_py_w0r1d_@nd_z3_1s_s0000_g00d!!}</p>
 <h3 id="4-Re0"><a href="#4-Re0" class="headerlink" title="4.Re0"></a>4.<strong>Re0</strong></h3><p>很简单，打开查strings即可。</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115192956744.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115192956744.png"></p>
 <p>SYC{Welcome_to_Geek_challenge2021}</p>
 <h3 id="5-Re1"><a href="#5-Re1" class="headerlink" title="5.Re1"></a>5.<strong>Re1</strong></h3><p>打开ida，发现这个题就两个函数，我们先点进去第一个函数</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115185834824.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115185856584.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115185834824.png"></p>
+<p><img src="/2021/12/01/geek/image-20211115185856584.png"></p>
 <p>这一看就是一个base64加密，我们点进这个常数aAbc…..发现连表都没换！！！</p>
 <p>那就非常简单了</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115185844223.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115185912822.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115185844223.png"></p>
+<p><img src="/2021/12/01/geek/image-20211115185912822.png"></p>
 <p>得到U1lDe1hPUl9hbmRfYmFzZTY0X2FyZV90aGVfYmFzaXNfb2ZfcmV2ZXJzZX，在线解密一下</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115185924295.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115185924295.png"></p>
 <p>flag：SYC{XOR_and_base64_are_the_basis_of_reverse}</p>
 <h3 id="6-win32"><a href="#6-win32" class="headerlink" title="6.win32"></a>6.<strong>win32</strong></h3><p>这道题我们可以看出是加壳的，这里说一下怎么去壳，用upx，将文件放在upx目录下，我们在upx目录下启动cmd，输入upx.exe -h，会装上很多东西。</p>
 <p>输入加壳命令：upx win32.exe :显示加壳成功。</p>
 <p>使用脱壳命令：upx -d win32.exe:提示脱壳成功。</p>
 <p>脱壳成功后就可以拖到ida中</p>
 <p>虽然这道题我什么都看不懂，但是我们有hints：base64，所以我们查表</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115185930810.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115185935630.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115185930810.png"></p>
+<p><img src="/2021/12/01/geek/image-20211115185935630.png"></p>
 <p>有table，还有字符串，并且table没变，直接复制字符串base64解码</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115185942943.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115185942943.png"></p>
 <p>FLAG：SYC{y0u_g3t_A_f1ag_by_cyberloafing_auth0r}</p>
-<h3 id="7-调试"><a href="#7-调试" class="headerlink" title="7.调试"></a>7.<strong>调试</strong></h3><p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115193218585.png" alt="avatar"></p>
+<h3 id="7-调试"><a href="#7-调试" class="headerlink" title="7.调试"></a>7.<strong>调试</strong></h3><p><img src="/2021/12/01/geek/image-20211115193218585.png"></p>
 <p>64位无壳程序</p>
 <p>这道题我没用idapatch修改，进入main函数看到字符串</p>
 <p>797G91WhVFeM465FoGJuWpHKDro2QyCixboJV7uhVAV2pfxkhtiTo3CHd7a</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115192106854.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115192106854.png"></p>
 <p>base58解码直接出答案：SYC{C0ngr@tuIatlOns_thls_1s_th3_r!gHt_f!ag}</p>
 <p><strong>CRYPTO</strong></p>
 <h3 id="8-Classical-music"><a href="#8-Classical-music" class="headerlink" title="8.Classical music"></a>8.<strong>Classical music</strong></h3><p>给了个文本，提示是in einem baechlein helle da schoss in froher eil</p>
@@ -988,22 +988,22 @@ curl_close($ch);
 <p>iloveclassicalmusic一直重复</p>
 <p>SYC{i_love_classical_music}</p>
 <h3 id="9-三个也可以"><a href="#9-三个也可以" class="headerlink" title="9.三个也可以"></a>9.<strong>三个也可以</strong></h3><p>一个简单的RSA加密，只不过有3个质数，给出脚本：</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114203834237.png" alt="avatar"></p>
-<h3 id="10-Superposition-under-the-starry-sky"><a href="#10-Superposition-under-the-starry-sky" class="headerlink" title="10.Superposition under the starry sky"></a>10.<strong>Superposition under the starry sky</strong></h3><h3 id><a href="#" class="headerlink" title></a><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115160257039.png" alt="avatar"></h3><p>考的是LCG线性同余，非常简单，</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115155839509.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115155853794.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114203834237.png"></p>
+<h3 id="10-Superposition-under-the-starry-sky"><a href="#10-Superposition-under-the-starry-sky" class="headerlink" title="10.Superposition under the starry sky"></a>10.<strong>Superposition under the starry sky</strong></h3><h3 id><a href="#" class="headerlink" title></a><img src="/2021/12/01/geek/image-20211115160257039.png"></h3><p>考的是LCG线性同余，非常简单，</p>
+<p><img src="/2021/12/01/geek/image-20211115155839509.png"></p>
+<p><img src="/2021/12/01/geek/image-20211115155853794.png"></p>
 <p>给出脚本：</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114204424892.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114204424892.png"></p>
 <p>b’SYC{The_rain_drenched_the_sky}’</p>
 <h3 id="11-easy-house-of-Classic-Crypto"><a href="#11-easy-house-of-Classic-Crypto" class="headerlink" title="11.easy house of Classic Crypto"></a>11.<strong>easy house of Classic Crypto</strong></h3><p>so easy，就是答案不太好拼起来</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114204740383.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114204740383.png"></p>
 <p>得到flag</p>
-<h3 id="12-Random"><a href="#12-Random" class="headerlink" title="12.Random"></a>12.<strong>Random</strong></h3><p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115160220863.png" alt="avatar"></p>
+<h3 id="12-Random"><a href="#12-Random" class="headerlink" title="12.Random"></a>12.<strong>Random</strong></h3><p><img src="/2021/12/01/geek/image-20211115160220863.png"></p>
 <p>这个考察的是MT19937，参考了一下之前的SUCTF的脚本，源码都几乎一样。。。</p>
 <p>这个题意思解释一下：flag先用bytes_to_long转换再用bin转换成二进制，那么转换回来就要用long_to_bytes,再用int（xx，2）转换成10进制，完成逆向</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211116112920543.png" alt="avatar">在经过下面的运算产生随机数，其中最重要的是change这一个函数</p>
+<p><img src="/2021/12/01/geek/image-20211116112920543.png">在经过下面的运算产生随机数，其中最重要的是change这一个函数</p>
 <p>可以产生随机数，引用原题wp的一句话：随机数发生器MT19937在从状态提取32bits随机数时进行四步平移和异或运算，但该四步运算均为可逆运算，从而导致可从32bits随机数还原状态。</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115160033225.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115160033225.png"></p>
 <p>我们给出脚本：</p>
 <p>from Crypto.Util.number import *</p>
 <p>data = [389902299, 3515959351, 2216779731, 2601284435, 514154742, 4172047173, 2921107804, 2217826537, 4248207905, 1322376767]<br>c = ‘01101100010001011100100011111110110000101111000001100001110010001100111000110010111101011111100101011100111011110100001010100111100000010101100011001000011111110111111001010000010000111000101000011111011101001011110001010100100011001010001001111110011111100101111010000010101011100010001111011001010010001010001110001111’</p>
@@ -1022,47 +1022,47 @@ for i in range(len(message)):
 print(long_to_bytes(int(flag, 2)))
 </code></pre>
 <p>transform(c)</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114232000260.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114232000260.png"></p>
 <p>解出flag</p>
 <p><em><strong>CRYPTO</strong></em>总结：剩余的密码题我还是很关注的，我个人比较热爱数学，baby house of rsa 应该不难的，但我不知道要求什么，还是没有认真进行下去,我还是很喜欢密码的！</p>
 <p><strong>MISC</strong></p>
 <h3 id="13-圣嘉然"><a href="#13-圣嘉然" class="headerlink" title="13.圣嘉然"></a>13.<strong>圣嘉然</strong></h3><p>我们打开文件</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190006547.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115190006547.png"></p>
 <p>提示用winrar解开，我刚开始以为是用mount挂载，但输入strings +file是能查里面有什么字符串，发现有flag.txt,这个时候想用mount ans2 /mnt ,挂载，但不行，原因是其是data数据，需要修复。我们根据提示用winrar修复，但修复后提示还是有错误，我试了一下用360压缩打开，发现成功了！</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190014965.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115190014965.png"></p>
 <p>打开文件</p>
 <p>我好想做嘉然👪小姐的狗啊。 可是嘉然小姐说她喜欢的是猫🐘，我👰哭了。 我知道既不是狗也不是猫的我为什么要哭的。因为我其实是一只老鼠 👣。 我从没奢望嘉然小姐能喜欢自己👴。我明白的，所有人都喜欢理解余裕上手天才打钱的萌萌的狗狗或者猫猫👚，没有人会喜欢阴湿带病的老鼠。 但我还是问了嘉然小姐:“我能不能做你的狗？” 我知道我是注定做不了狗👜的。但如果她喜欢狗，我👲就可以一直在身边看着她了，哪怕她怀里抱着的永远都是狗。 可是她说喜欢的是猫。 她现在还在看着我，还在逗我开心，是因为猫还没有出现，只有我这老鼠每天蹑手蹑脚地从洞👞里爬出来，远远地和她对视。 等她喜欢的猫👛来了的时候，我就该重新滚回我👥的洞了吧。 但我还是好喜欢她👠，她能在我还在她身边的时候多看我几眼吗👘？ 嘉然小姐说接下来的每个圣诞夜都要和大家一起过👘。我不知道大家指哪些人👖。好希望这个集合能够对我做一次胞吞👥。 猫猫👰还在害怕嘉然小姐。 我会去把她爱的猫猫引来的👘。 我👤知道稍有不慎，我就会葬身猫🐘口。 那时候嘉然小姐大概会把我的身体好好地装起来扔到门外👖吧。 那我就成了一包鼠条👰，嘻嘻👜。 我希望她能把我扔得近一点🐧，因为我还是好喜欢她👩。会一直喜欢下去的。 我的灵魂透过窗户向里面看去，挂着的铃铛在轻轻鸣响，嘉然小姐慵懒地靠在沙发上，表演得非常温顺的橘猫坐在她的肩膀👬。壁炉的火光照在她的脸庞，我冻僵的心脏在风里微微发烫👘👖。 —新户眠子</p>
 <p>我们提取表情，</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190024178.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115190024178.png"></p>
 <p>这肯定是栅栏密码：s!yl}ce{gdniaa_nyam!<em>ye0rua</em></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190031018.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115190031018.png"></p>
 <p>这肯定是栅栏密码：s!yl}ce{gdniaa_nyam!<em>ye0rua</em></p>
 <h3 id="14-说实话挺好玩的，不是吗？"><a href="#14-说实话挺好玩的，不是吗？" class="headerlink" title="14.说实话挺好玩的，不是吗？"></a>14.<strong>说实话挺好玩的，不是吗？</strong></h3><p>本题打开是一个word文档，用zip打开后发现提示是一个8位数字，那么就开始暴力破解：</p>
 <p>推荐用advanced Office Password Recovery（呜呜呜，我花了6块钱），但破解八位数字太慢，我破解了一天电脑就起飞了，自动关机了，就破防了。然后发现了个网站能够直接破解密码。</p>
-<p>破解完打开文档，显然是个隐写，这里用到snow隐写，将空白可以复制到文档中，当然我们可以用制表符，看的更清楚：<br><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190051426.png" alt="avatar"></p>
+<p>破解完打开文档，显然是个隐写，这里用到snow隐写，将空白可以复制到文档中，当然我们可以用制表符，看的更清楚：<br><img src="/2021/12/01/geek/image-20211115190051426.png"></p>
 <p>将txt放在snow目录下</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190104183.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115190104183.png"></p>
 <p>SYC{misc_mei_qian_tu}</p>
 <h3 id="15-每日一溜"><a href="#15-每日一溜" class="headerlink" title="15.每日一溜"></a>15.<strong>每日一溜</strong></h3><p>这个题需要用到wireshark：</p>
 <p>Wireshark（前称Ethereal）是一个网络封包分析软件。网络封包分析软件的功能是撷取网络封包，并尽可能显示出最为详细的网络封包资料。Wireshark使用WinPCAP作为接口，直接与网卡进行数据报文交换。— 百度百科</p>
 <p>我们将文件拖入</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190211239.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115190211239.png"></p>
 <p>这种题一般先找字符串搜索是否有直接的flag，用ctrl+f进行搜索。接下来我们找到http，因为只有http才可以传输我们想要的数据，接下来我们可以点击鼠标右键追踪流，选择tcp或者http查看是否有flag</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190224604.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190234839.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115190224604.png"></p>
+<p><img src="/2021/12/01/geek/image-20211115190234839.png"></p>
 <p>我们发现是一个png格式，我们有两种方法能将图片提取出来：</p>
 <p>1.找到</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190251218.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115190251218.png"></p>
 <p>我们右键将其16进制码copy下来，转成base64编码后，用在线网站，将base64转成图片，但保存的时候是php文件，对于我这种没接触过web的萌新有些小难度。</p>
 <p>2.我们直捣黄龙：查看POST数据包 - Media Type - 导出分组字节流</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190335785.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115190335785.png"></p>
 <p>右键导出字节流，我们得到了一个bin文件</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190358709.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115190358709.png"></p>
 <p>下面，我们放到虚拟机中，binwalk一下</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190420884.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115190420884.png"></p>
 <p>暗藏玄机，我们将zip文件分离出来</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190437952.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190449900.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115190437952.png"></p>
+<p><img src="/2021/12/01/geek/image-20211115190449900.png"></p>
 <p>发现txt文件，一看就是换表的base64解密，给出脚本！</p>
 <p>给出脚本：import base64</p>
 <p> data=’FhMrPh94JHqS2jGQGM6QCsaDzI6ZyHqQQB’ t1=’ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/‘ t2=’vwxrstuopq34567ABCDEFGIHJyz021PQRSTKNMLOZabcdUVWXYefghijklmn89+/‘ result =’’ </p>
@@ -1070,66 +1070,66 @@ print(long_to_bytes(int(flag, 2)))
 <p>result += t1[t2.index(ch)] </p>
 <p>result =bytearray(base64.b64decode(result+”==”)) </p>
 <p>print(result)</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115190517404.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115190517404.png"></p>
 <h3 id="16-PANDORA-PARADOXXX"><a href="#16-PANDORA-PARADOXXX" class="headerlink" title="16.PANDORA PARADOXXX"></a>16.<strong>PANDORA PARADOXXX</strong></h3><p>重申一下我是学RE的！！！！</p>
 <p>这个题太难受了我，给了张图片，binwalk一下，提取zip文件</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211113145150501.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211113145322194.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211113145150501.png"></p>
+<p><img src="/2021/12/01/geek/image-20211113145322194.png"></p>
 <p>第一层加密：</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211113145429158.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211113145429158.png"></p>
 <p>使用ziperello来破解，是6位数字：513692</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\A9DCK~%A%ZW}HDLIF{6OTHK.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/A9DCK~%25A%25ZW%7DHDLIF%7B6OTHK.png"></p>
 <p>打开有第二层：</p>
 <p>我选择用数字+字母大小写6位破解：得到密码Maimai</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211113145910066.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211113145910066.png"></p>
 <p>还有一层我也是无语了。。。</p>
 <p>我用字典破出是challenge，果真跟hints里一样。。。</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211113150049138.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211113150049138.png"></p>
 <p>打开就是flag！</p>
-<h3 id="17-SGA-Character"><a href="#17-SGA-Character" class="headerlink" title="17.SGA Character"></a>17.<strong>SGA Character</strong></h3><p>给了一张神奇的图片<img src="/2021/12/01/geek/blog\source_posts\geek\image-20211113150838314.png" alt="avatar"></p>
+<h3 id="17-SGA-Character"><a href="#17-SGA-Character" class="headerlink" title="17.SGA Character"></a>17.<strong>SGA Character</strong></h3><p>给了一张神奇的图片<img src="/2021/12/01/geek/image-20211113150838314.png"></p>
 <p>太熟悉了，这不就是mc附魔书上的文字吗，是银河字母对照表，找一份对照表从后往前找flag！</p>
 <h3 id="18-今天有被破防吗？"><a href="#18-今天有被破防吗？" class="headerlink" title="18.今天有被破防吗？"></a>18.<strong>今天有被破防吗？</strong></h3><p>这是一道RGB类型的题</p>
 <p>附上一篇例题：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43342566/article/details/102418732?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522163678908816780264069308%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=163678908816780264069308&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~baidu_landing_v2~default-1-102418732.pc_search_mgc_flag&amp;utm_term=rgb+misc&amp;spm=1018.2226.3001.4187">https://blog.csdn.net/qq_43342566/article/details/102418732?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522163678908816780264069308%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=163678908816780264069308&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~baidu_landing_v2~default-1-102418732.pc_search_mgc_flag&amp;utm_term=rgb+misc&amp;spm=1018.2226.3001.4187</a></p>
 <p>我们用notepad++打开发现啊1166400行，而且是3个16进制数，1166400=1080*1080，介绍一下tuple（），tuple是一个元组，且tuple主要是可以返回出多个值，用int（xx，16）可以将16进制转换成十进制，split的用法是进行字符串切片，strip（）作用是去掉左右两端的空格，最后存为一张图片即可。</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211113165941957.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211113165904421.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211113165941957.png"></p>
+<p><img src="/2021/12/01/geek/image-20211113165904421.png"></p>
 <p>我太菜了。。。。。</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211113191841377.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211113191841377.png"></p>
 <p>有图片，我学了一下午咋还原图片。。。。。太菜了不会啊。。。只能将来看别人的wp</p>
 <p>我直接手动拼接！</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211113191948745.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211113191948745.png"></p>
 <p>大概出来了，其中要镜像一下，输入的时候发现不对，原来是要加下划线。。。。</p>
 <p>还是我太菜了。</p>
 <h3 id="19-EzForensics"><a href="#19-EzForensics" class="headerlink" title="19.EzForensics"></a>19.<strong>EzForensics</strong></h3><p>简单取证：如果volatlity一直报错说未找到命令，是因为少了一个命令，系统会提示</p>
 <p>先输入volatility -f SSSSSSSSS.raw imageinfo 获得镜像信息，可知系统为Win7SP1x64</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114130739257.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114130739257.png"></p>
 <p>我们可以使用volatility -f SSSSSSSSS.raw –profile=Win7SP1x64 pslist来查进程</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114131940514.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114131940514.png"></p>
 <p>接下来一个个查历史：</p>
 <p>volatility -f SSSSSSSSS.raw –profile=Win7SP1x64 iehistory     无</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114131126720.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114131126720.png"></p>
 <p>再查文件</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114133613154.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114133613154.png"></p>
 <p>把所有文件下载下来volatility -f SSSSSSSSS.raw –profile=Win7SP1x64 dumpfiles -Q 0x000000007ebcf900 –dump-dir=./  再查其中内容</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114133531087.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114134108021.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114133531087.png"></p>
+<p><img src="/2021/12/01/geek/image-20211114134108021.png"></p>
 <p>当查到最后一个文件时，突然找到了我们想要的地址：rigelx.top</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114134318912.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114134318912.png"></p>
 <p>我们按hints第二步，寻找下载文件volatility -f SSSSSSSSS.raw –profile=Win7SP1x64 filescan | grep -i download</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114140353745.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114140353745.png"></p>
 <p>dat肯定不对，所以推测是L0v3r.f,标准奇怪！</p>
 <p>第三个hint：查阅资料发现方法</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114151438067.png" alt="avatar">我们要找到用户名，首先要查注册表volatility -f SSSSSSSSS.raw –profile=Win7SP1x64 hivelist</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114145611392.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114151438067.png">我们要找到用户名，首先要查注册表volatility -f SSSSSSSSS.raw –profile=Win7SP1x64 hivelist</p>
+<p><img src="/2021/12/01/geek/image-20211114145611392.png"></p>
 <p>那么其中0x8bc1a1c0是相当于本题中\REGISTRY\MACHINE\SYSTEM的地址即0xfffff8a000024010</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211114151804489.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211114151804489.png"></p>
 <p>找到用户名P0TT3R</p>
 <p>SAM：0xfffff8a000e36010</p>
 <p>system：0xfffff8a000024010</p>
 <p>0x000000007ebb0070      1      1 RW-rw- \Device\HarddiskVolume3\P0TT3R-20211009-044021.raw</p>
 <p>暴毙，找不到密码，用哈希也没用，很难受。</p>
 <h3 id="20-三叶草聚会"><a href="#20-三叶草聚会" class="headerlink" title="20.三叶草聚会"></a>20.<strong>三叶草聚会</strong></h3><p>给了一个hint，用记事本打开</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115191133868.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115191133868.png"></p>
 <p>满屏的好像是base64加密，要么换图片，要么换文字，但根据提示应该是需要ssh来搞，但是确实没时间了，日后会研究一下ssh的操作。</p>
 <h3 id="21ezA-B"><a href="#21ezA-B" class="headerlink" title="21ezA+B"></a>21ezA+B</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">long</span> A,B,sum;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%ld %ld&quot;</span>,&amp;A,&amp;B);</span><br><span class="line">    sum=A+B;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%ld&quot;</span>,sum);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
 
@@ -1151,43 +1151,43 @@ print(long_to_bytes(int(flag, 2)))
 <p>MISC总结：刚开始什么都不会写，但经过我在csdn上翻别的师傅写的各种题型，还是对这些题有了一定的感觉吧，很好玩，做出来令人激动，但我把洛谷忘了，只剩四个小时的时候才开始写，算是有点遗憾吧，其中取证这个题是我觉得最难受的，只差一个密码，直到14号将近结束我还在找密码，意难平！！</p>
 <h2 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h2><h3 id="27-check-in"><a href="#27-check-in" class="headerlink" title="27.check in"></a>27.<strong>check in</strong></h3><p>简单写一下pwn常用的知识点总结：</p>
 <p>gdb file<br>先设断点b main——》找到地址，或者b 地址<br>run/r是运行<br>s是步入<br>n是步过<br>ebp是上一个函数的栈底<br>esp是栈顶，但esp在栈的底部，因为在栈中地址由高到低<br>stack 24，可看24个stack<br>比ebp高一位的就是返回地址<br>把ebp return的数据返回到shell就是攻击，所以要找eax和ebp之间的位数<br>io.remote(“xxxxx”,xxx)远程启动本地程序<br>io=process（“./file”)就是启动进程<br>io.recvline()显示一行输出的字符串<br>io.recv()是把字符串全输出<br>payload=b’A’*位数+b’B’*4字节+p64（sh地址）<br>io.sendline(payload)向机器发送指令<br>io.interactive()进入交互模式——》拿下控制权<br>其中pwd是显示地址，ls显示文件夹目录下文件<br>可用python脚本攻击，vim file<br>然后python3 file。<br>但shellcode一般写在栈和bss区，但栈有保护措施即NX保护<br>ALSR保护：随即地址，0不随机，1半随机，栈每次都不同，2全随机即内存也随机<br>PIE保护随机化elf文件映像，bss，txt，data即转存到内存的<br>pwntools中shellcode的输出<br>context.arch=”amd64”<br>shellcraft.amd64.sh()——》若无shellcode入口则采用此方法<br>print（shellcraft.amd64.sh()）——》输出shellcode的汇编码<br>asm（shellcraft.amd64.sh()）——》变成机械码<br>chardet可判断字符串是utf8还是ascii<br>import chardet<br>chardet.detect(b”abc123”)</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211116164621695.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211116164652815.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211116164621695.png"></p>
+<p><img src="/2021/12/01/geek/image-20211116164652815.png"></p>
 <p>简单说一下：setvbuf是为了不让系统卡顿，用alarm来限制时间，然后就照着运算即可。</p>
 <p>该题是在规定时间内计算四则运算，手算显然不行，因为我手算了4个就暴毙了。我服了，我的wp不见了，就剩两张张图片了，但应该没问题，我是参照去年极客的写的脚本</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211116201854819.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211116201854819.png"></p>
 <p>我们要做的就是利用脚本将num1和num2提取出来，相加发送回去。</p>
 <p>但定义四个函数太拉了，我们的目标不过是提取num1和num2，稍微改了一下。</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211117182828120.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211117182828120.png"></p>
 <p>这样就可以pwn掉了！</p>
-<h3 id="28-恋爱小游戏"><a href="#28-恋爱小游戏" class="headerlink" title="28.恋爱小游戏"></a>28.<strong>恋爱小游戏</strong></h3><p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115161502955.png" alt="avatar"></p>
+<h3 id="28-恋爱小游戏"><a href="#28-恋爱小游戏" class="headerlink" title="28.恋爱小游戏"></a>28.<strong>恋爱小游戏</strong></h3><p><img src="/2021/12/01/geek/image-20211115161502955.png"></p>
 <p>第一道pwn题目诞生了；</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115161509482.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115161509482.png"></p>
 <p>先gbd一下有什么保护</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115161536782.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115161536782.png"></p>
 <p>接下来设断点b main，找到断点，然后r。</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115161549587.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115161549587.png"></p>
 <p>一直nnnnnnnn，找到入口read函数，s单步进入</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115161610268.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115161620454.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115161610268.png"></p>
+<p><img src="/2021/12/01/geek/image-20211115161620454.png"></p>
 <p>一直s，直到让输入字符，因为buf数组24，输入24个垃圾字符，a*24</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115161630664.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115161630664.png"></p>
 <p>看rsp，rbp地址的差就是我们所需，0xfffffffdfb0-0xfffffffdf90=32,记得gdb中是越往下地址越高。</p>
 <p>再查看我们要跳转的system的地址：</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115161646838.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115161646838.png"></p>
 <p>所以可以进行交互了，代码如下，其中我们发现有一串乱码，经查阅这是py3的小问题，我们可以通过：</p>
 <p>查看乱码是什么编码<br>import chardet<br>response = chardet.detect(b’\xe5\xbd\x93\xe5\x89\x8d\xe7\x9b\xae\xe5\xbd\x95\xe4\xb8\x8b\xe6\x89\x80\xe6\x9c\x89\xe6\x96\x87\xe4\xbb\xb6\xe5\x90\x8d\xe6\xb1\x87\xe6\x80\xbb\xe5\x88\x97\xe8\xa1\xa8’)<br>print(response)</p>
 <p>进行转换</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115161711605.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115161711605.png"></p>
 <p>当我输入cat flag.txt</p>
 <p>得到flag；</p>
 <p>flag{7536ddd9-5e99-4606-94cf-1e65dae937e1}</p>
 <h3 id="29-恋爱小游戏2"><a href="#29-恋爱小游戏2" class="headerlink" title="29.恋爱小游戏2"></a>29.<strong>恋爱小游戏2</strong></h3><p>写本题是学到的pwn：</p>
 <p>vim file用来创建可写语言，<br>gcc file用来读所写内容，当然可以读elf，如输完gcc file后，ls，显示a.out，再cat，显示机械码。<br>ls为所属文件下的文件名<br>局部变量存在栈（stack）中，<br>heap可存字符串<br>内存中got存储偏移量<br>未初始化全局变量被存在内存中的bss中，且不占用磁盘空间，但占用内存空间。<br>像main函数，字符串等内容被存在text之中。<br>（有顺序）<br>大端序：低地址在高位<br>小端序：低地址在低位（常用）<br>硬件只能与硬件联系<br>靠近cpu的存储器价格高，重要，速度慢<br>内存（memory）断电不保存所以需要外存。<br>cpu的寄存器作用是存放正在运行cpu的数据<br>read函数会读取我们在屏幕上输入的内容，但不会检查内容的多少，全部复制到str里，但str只能存取20个，如果超出这个值，会造成溢出</p>
 <p>打开ida发先与之前不一样必须等与loveyou才能到binsh</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115161821206.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115161821206.png"></p>
 <p>之后拉到linux，先checksec然后再gdb发现与之前一样，此时可确定要填32个垃圾值，其中要包括loveyou，但是这样不行，经过网上查阅，发现输入字符串后面必须要给\0一位，所以就有如图</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115161904038.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115161904038.png"></p>
 <p>或者payload=b’loveyou’+rjust(0x20, b’A’)</p>
 <p>那么rjust函数作用：str.rjust(width[, fillchar])，</p>
 <ul>
@@ -1205,8 +1205,8 @@ print(long_to_bytes(int(flag, 2)))
 <p>JZ是累加器A判零条件转移指令。<br>int 3是一个软件断点中断，一般用于调试时设置断点，用于观察，查找一些软件的关键数据，你可以任意修改断点。<br>介绍ida中汇编前的代码含意：<br>1.load与头文件有关<br>2.init代码段<br>3.plt代码段<br>4.text代码段<br>5.got节gotplt节：记录八字节地址<br>6.data是数据段</p>
 <p>got可以找到函数真正地址<br>dissass+地址——》反汇编<br>info b 查看断点<br>d +数字删除断点<br>c继续执行程序，断点多才有用，遇到下一断点停止<br>不小心点住s，步入函数后可用return直接离开<br>rodata中存在binsh</p>
 <p>这个题是我做的最久，最意难平的一道题，我写的脚本没毛病，但就是要有一个，32位的环境，我配置环境已经单独为这个题配了两次了，还是不行，可能是我实力问题😚</p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115184308707.png" alt="avatar"></p>
-<p><img src="/2021/12/01/geek/blog\source_posts\geek\image-20211115184319854.png" alt="avatar"></p>
+<p><img src="/2021/12/01/geek/image-20211115184308707.png"></p>
+<p><img src="/2021/12/01/geek/image-20211115184319854.png"></p>
 <p>从read函数栈溢出就行了</p>
 <p>但用ldd指令出来引用的是libc32位的库，很难受，还是太菜了。</p>
 <p>from pwn import*<br>from ctypes import*</p>
