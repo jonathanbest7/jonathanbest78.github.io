@@ -22,7 +22,7 @@
 
   
 
-  <title>Hello World | Jonathan的小窝</title>
+  <title>BuildWLS2 | Jonathan的小窝</title>
 
   
 
@@ -96,11 +96,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">Hello World</h1>
+          <h1 class="title-wrap">BuildWLS2</h1>
           <h2 class="title-sub-wrap">
             <strong>Jonathan</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-11-30T11:26:50.502Z" itemprop="datePublished">2021-11-30</time>
+            <time  class="article-date" datetime="2021-12-13T06:13:28.000Z" itemprop="datePublished">2021-12-13</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -129,19 +129,64 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+        <p>​                      最讨厌搭环境了，记录一下自己在搭wsl2的方法踩过的坑。</p>
+<p>一、WSL2的安装</p>
+<p>进入<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/wsl/install-manual">https://docs.microsoft.com/zh-cn/windows/wsl/install-manual</a>官网有详细教程，不要直接用：wsl –install  这个命令，就算下载好重启后也会报错。</p>
+<p>我们采用旧版本的方法，先用管理员模式打开powershell输入：</p>
+<p><code>dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart</code></p>
+<p> 再用下面的命令，用完后重启电脑：</p>
+<p><code>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart</code></p>
+<p>当然如果你的电脑版本不行，得先升级，我没有遇到这种情况。</p>
+<p>再执行：</p>
+<p><code>wsl --set-default-version 2</code></p>
+<p>接下来去微软商店下载一款虚拟机，我选择的是ubuntu 20.04的版本，下载后点启动：</p>
+<p><img src="/2021/12/13/BuildWLS2/image-20211213142530322.png"></p>
+<p>接下来能看到下面的图，然后是让你注册你的账号和密码，但如果有报错：“参考的对象类型不支持尝试的操作”，建议用管理员命令：</p>
+<p><code>netsh winsock reset</code></p>
+<p>然后重启，接下来就行了，不行就重新下载。</p>
+<p><img src="/2021/12/13/BuildWLS2/image-20211213142658552.png"></p>
+<p>如果成功到这一步，就已经配置成功了。</p>
+<p>二、与VScode的共用</p>
+<p>我们首先下一个Windows Terminal，这个终端看起来很好看的，我们在这个终端中也可以打开linux终端，所以很方便。</p>
+<p>先下一个vscode，可以先不用配置，先在vscode中下一个Remote-WSL的插件，然后在linux下的终端来连接vscode，</p>
+<p>先用mkdir创一个文件夹，cd进入，再code .</p>
+<p>这个时候等待一会就可以连接了。我们在vscode下创建文件是，可以直接在linux中运行的。</p>
+<p>三、docker安装</p>
+<p>我们采用脚本安装，用<a target="_blank" rel="noopener" href="https://gist.github.com/xiaopeng163/f3e72bb1990860859076985d5a723cba#file-install-docker-sh">https://gist.github.com/xiaopeng163/f3e72bb1990860859076985d5a723cba#file-install-docker-sh</a>下的脚本进行安装，如图：</p>
+<p><img src="/2021/12/13/BuildWLS2/image-20211213144815510.png"></p>
+<p>接下来重启终端，输入：</p>
+<p><code>sudo service docker start</code></p>
+<p>是让docker启动，输入完成就基本成功了，</p>
+<p>再输入，是为了不让每次都重新启动：</p>
+<p><code>sudo systemctl enable docker</code></p>
+<p>三、插件+美化</p>
+<p>oh-my-zsh <a target="_blank" rel="noopener" href="https://github.com/ohmyzsh/ohmyzsh">https://github.com/ohmyzsh/ohmyzsh</a> </p>
+<p>oh-my-zsh plugins <a target="_blank" rel="noopener" href="https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins">https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins</a> </p>
+<p>oh-my-zsh theme <a target="_blank" rel="noopener" href="https://github.com/ohmyzsh/ohmyzsh/wiki/Themes">https://github.com/ohmyzsh/ohmyzsh/wiki/Themes</a> </p>
+<p>zsh-autosuggestions <a href>https://github.com/zsh-users/zsh-autosuggestions</a></p>
+<p>采用zsh美化比较简单：</p>
+<p>先用第一个连接：选择curl或者wget命令进行下载就行，如果出现：[Ubuntu] 关于ohmyzsh下载被443拒绝连接：</p>
+<p><code>sh -c &quot;$(curl -fsSL https://gitee.com/shmhlsy/oh-my-zsh-install.sh/raw/master/install.sh)&quot;</code></p>
+<p>或者</p>
+<p><code>sh -c &quot;$(wget -O- https://gitee.com/shmhlsy/oh-my-zsh-install.sh/raw/master/install.sh)&quot;</code></p>
+<p>就行了。</p>
+<p>安装好会出现下图。</p>
+<p><img src="/2021/12/13/BuildWLS2/image-20211213181706619.png"></p>
+<p>先cd，再ls -la找到.zshrc文件</p>
+<p><img src="/2021/12/13/BuildWLS2/image-20211213195702447.png"></p>
+<p>在zshrc文件下有plugins插件我们可以安装使用。</p>
+<p>用code .zshrc可以打开文件，在ZSH_THEME中修改主题，在plugins装插件</p>
+<p><img src="/2021/12/13/BuildWLS2/image-20211213195842156.png"></p>
+<p>我们可以定位到plugins目录下看有什么插件</p>
+<p><img src="/2021/12/13/BuildWLS2/image-20211213200034155.png"></p>
+<p>我们可以加上第4个插件，是可以帮我们显示想要输的字符。</p>
+<p>到此应该就结束了。</p>
+<p>四、配置python环境</p>
+<p>我们不在细说，只说如何运行python，需要一个环境。</p>
+<p><code>cd</code></p>
+<p><code>source env/bin/activate</code></p>
+<p>这样就能写脚本了！</p>
+<p>总结：图形界面就不整了，我觉得不太好看，后面有需要再整！</p>
 
       </section>
 
@@ -149,20 +194,20 @@
       
         <nav class="article-nav">
           
+          
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
     <div class="card-text">
       
-        <a href="/2021/12/03/Geek2021/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">Geek2021</h2>
+        <a href="/2021/12/12/ReverseCorePrinciple1/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">ReverseCorePrinciple1</h2>
         </a>
       
-      <div class="card-text--row">Newer</div>
+      <div class="card-text--row">Older</div>
     </div>
   </article>
 </div>
-          
           
         </nav>
       
