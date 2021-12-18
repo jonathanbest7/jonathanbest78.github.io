@@ -130,7 +130,7 @@
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <h1 id="PE文件"><a href="#PE文件" class="headerlink" title="PE文件"></a>PE文件</h1><p>一、PE文件是指win下32位可执行文件，64位的PE文件叫做PE32+，PE文件包括：可执行文件exe，scr；库文件dll，ocx，cpl，drv；驱动程序系列：sys，vxd；对象文件系列：obj。除了obj其他都是可执行文件。PE文件分为头和体，从DOS头到节区头Section 属于头部，剩下是体。在文件中用offset偏移表示地址，在内存中用VA表示，这两个的运算很重要。文件的内容是有代码.text，数据.data，资源.rsrc节，分别保存。注意，在PE头和各节区尾部存在NULL区域，这是为了遵守最小基本单位原则，因为要让文件或者内存节的起始位置在最小单位的倍数上，所以需要NULL填充。</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/blog\source_posts\ReverseCorePrinciple2\Untitled.png"></p>
+<p><img src="/2021/12/18/ReverseCorePrinciple2/ReverseCorePrinciple2%5CUntitled.png"></p>
 <p>二、VA和RVA</p>
 <p>VA 是虚拟内存绝对地址   RVA是相对虚拟地址   ImageBase是基准地址</p>
 <p>所以有RVA+ImageBase=VA</p>
@@ -138,23 +138,23 @@
 <p>三、PE头</p>
 <p>1、DOS头</p>
 <p>IMAGE_DOS_HEADER结构体位于PE文件最前面，大小64位</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/blog\source_posts\ReverseCorePrinciple2\image-20211218193756591.png" alt="image-20211218193756591"></p>
+<p><img src="/2021/12/18/ReverseCorePrinciple2/ReverseCorePrinciple2%5Cimage-20211218193756591.png"></p>
 <p>e_magic是签名，e_lfanew指示了NT头的offset，在intel中采用小端序</p>
 <p>2、DOS存根</p>
 <p>DOS存根（stub），是由代码和数据组成，可有可无。</p>
 <p>3、NT头</p>
 <p>IMAGE_NT_HEADERS</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/blog\source_posts\ReverseCorePrinciple2\image-20211218193827675.png"></p>
+<p><img src="/2021/12/18/ReverseCorePrinciple2/ReverseCorePrinciple2%5Cimage-20211218193827675.png"></p>
 <p>signature签名，File Header文件头，Optional Header可选头</p>
 <p>3.1、NT头，文件头</p>
 <p>IMAGE_FILE_HEADER</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/blog\source_posts\ReverseCorePrinciple2\image-20211218193854482.png"></p>
+<p><img src="/2021/12/18/ReverseCorePrinciple2/ReverseCorePrinciple2%5Cimage-20211218193854482.png"></p>
 <p>四个成员：Machine，每个cpu有独有的Machine码；NumberOfSections，文件中节区数量；SizeOfOptionalHeader，指出可选头结构体长度，PE32+用64位的结构体，所以需要查看其长度；Characteristics，查看文件属性。</p>
 <p>TimeDataStamp:时间戳</p>
 <p>3.2、NT头，可选头</p>
 <p>该头是32位PE文件中最大的</p>
 <p>Magic，32位是10B，64位是20B;AddressOfEntryPoint，含有EP的RVA;ImageBase，</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/blog\source_posts\ReverseCorePrinciple2\image-20211218193912587.png"></p>
+<p><img src="/2021/12/18/ReverseCorePrinciple2/ReverseCorePrinciple2%5Cimage-20211218193912587.png"></p>
 <p>SectionAlignment，指定节区在内存中的最小单位；</p>
 <p>FileAlignment，指定节区在磁盘文件中最小单位；</p>
 <p>SizeOfImage，指定PE Image在虚拟内存中占空间大小；</p>
@@ -197,18 +197,18 @@
 <p>它使不同的程序调用库文件提供的函数。</p>
 <p>压缩：</p>
 <p>压缩分为无损和有损</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/blog\source_posts\ReverseCorePrinciple2\image-20211218193938507.png"></p>
+<p><img src="/2021/12/18/ReverseCorePrinciple2/ReverseCorePrinciple2%5Cimage-20211218193938507.png"></p>
 <p>UPX也属于压缩器，保护器还能防止逆向分析</p>
 <p>基本知识补充：</p>
 <p>在程序开头，call edi是获取ImageBase，ctrl+F8快速F8，点F7退出</p>
 <p>如何查找upx加密过的EP代码，有以下几种方法：</p>
 <p>1、一步一步跟进，ctrl+F8找到循环，用F2下断点退出循环，再找到jmp大幅度的地方，基本锁定是EP。IAT的恢复过程：</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/blog\source_posts\ReverseCorePrinciple2\image-20211218193958778.png"></p>
+<p><img src="/2021/12/18/ReverseCorePrinciple2/ReverseCorePrinciple2%5Cimage-20211218193958778.png"></p>
 <p>2、ESP定律，设置硬件断点：</p>
 <p>进入程序直接定位到，pushad。</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/blog\source_posts\ReverseCorePrinciple2\image-20211218194013069.png"></p>
+<p><img src="/2021/12/18/ReverseCorePrinciple2/ReverseCorePrinciple2%5Cimage-20211218194013069.png"></p>
 <p>我们F8，pushad将eax到edi寄存器的值全部存储过去，我们用寄存器的ESP，右键数据窗口显示，</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/blog\source_posts\ReverseCorePrinciple2\image-20211218194040726.png"></p>
+<p><img src="/2021/12/18/ReverseCorePrinciple2/ReverseCorePrinciple2%5Cimage-20211218194040726.png"></p>
 <p>选中数据右键设硬件断点，硬件访问—》word，设置完然后F9，找到jmpF8就行了</p>
 <p>这就是常用的方法。</p>
 <p>原理：UPX的特征之一，其EP代码包含在pushad和popad之间，并且jmp的命令出现在popad之后。</p>
@@ -220,7 +220,7 @@
 <p>删除.reloc节：</p>
 <p>exe文件删不删都没问题，但dll和sys删了就出事了。</p>
 <p>先在PEview中NT下查看IMAGE_SECTION_HEADER.reloc:</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/blog\source_posts\ReverseCorePrinciple2\image-20211218194058963.png"></p>
+<p><img src="/2021/12/18/ReverseCorePrinciple2/ReverseCorePrinciple2%5Cimage-20211218194058963.png"></p>
 <p>注意270处是.reloc节区头，其大小是到294，PTRD的数据是.reloc的节区，我们用hexo editor直接找到位置删除就行，或者用nop填充.接下来还需要进行数据的修改,要把file头中的Number of Sections项减去1,因为少了1个节区,还要修改IMAGE_OPTIONAL_HEADER的size of image,我们找到.reloc节区头的SectionAlignment,用size of image-=SectionAlignment就行了</p>
 <p>UPack的·PE头特征：</p>
 <p>1、重叠文件头nt头的位置是由e_lfanew决定，在压缩中值为10，会导致DOS和NT头重合。</p>
@@ -228,7 +228,7 @@
 <p>3、OPTIONAL头中的NumberOfRvaAndSizes代表结构体数组的数量，正常数组是有10h，但改完有A个，就是少了5个，所以从A后的数组全部被改为UPACK自己的代码。</p>
 <p>4、在SECTION头中，如果有不需要用的数据，Upack是可以将其改成自己的代码，与第3点相似。</p>
 <p>5、第5点通过语言不好描述：简单来说就是节区重叠，看似违反PE规定，但在内存中又重新恢复，所以并不违反。</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/blog\source_posts\ReverseCorePrinciple2\image-20211218194120770.png"></p>
+<p><img src="/2021/12/18/ReverseCorePrinciple2/ReverseCorePrinciple2%5Cimage-20211218194120770.png"></p>
 <p>6、RVA to RAW是一个bug，正常来说PTRD是FileAlignment的整数倍，但FileAlignment为200，PTRD却只有10，那么如果要是整数倍，PTRD就要等于0。这就导致算RAW时算错。</p>
 <p>7、导入表：PE的规范是，导入表由IMPORT结构体和最后一个内容NULL组成，但在Upack中第一个结构体后不是结构体，也不是NULL，但在映射到内存的时候，又会出现NULL，也就符合了规范。</p>
 <p>内嵌补丁：在难以修改指定代码的时候，比如代码被压缩等情况下，插入”洞穴代码“并运行补丁代码。</p>
@@ -237,11 +237,11 @@
 <p>1、寻找补丁设置位置，三种方法：（1）设置文件空白区域（2）拓展最后节区后设置（3）添加新节区后设置</p>
 <p>代码少的时候用方法（1），其他时候用法（2）或者（3）</p>
 <p>法一：</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/blog\source_posts\ReverseCorePrinciple2\image-20211218194142497.png"></p>
+<p><img src="/2021/12/18/ReverseCorePrinciple2/ReverseCorePrinciple2%5Cimage-20211218194142497.png"></p>
 <p>那么对应内存上的地址，如图：</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/blog\source_posts\ReverseCorePrinciple2\image-20211218194204300.png"></p>
+<p><img src="/2021/12/18/ReverseCorePrinciple2/ReverseCorePrinciple2%5Cimage-20211218194204300.png"></p>
 <p>2、在od中找到需要patch的地方401280，在该处进行下列操作：</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/blog\source_posts\ReverseCorePrinciple2\image-20211218194224699.png"></p>
+<p><img src="/2021/12/18/ReverseCorePrinciple2/ReverseCorePrinciple2%5Cimage-20211218194224699.png"></p>
 <p>3、执行补丁</p>
 <p>将jmp跳转到该处即可，但我们还需要将jmp处的加密区域的字符改为加密前的字符，我们可以通过动态调试将源码找到，这样经过解码后就是我们想要的了！</p>
 <p>总结：本章节晦涩难懂，需要反复学习，要懂得怎么操作！</p>
