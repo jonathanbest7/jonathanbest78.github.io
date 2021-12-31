@@ -22,7 +22,7 @@
 
   
 
-  <title>normal7 | Jonathan的小窝</title>
+  <title>RSA-BASE64-AES | Jonathan的小窝</title>
 
   
 
@@ -96,11 +96,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">normal7</h1>
+          <h1 class="title-wrap">RSA-BASE64-AES</h1>
           <h2 class="title-sub-wrap">
             <strong>Jonathan</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-12-25T10:44:03.000Z" itemprop="datePublished">2021-12-25</time>
+            <time  class="article-date" datetime="2021-12-30T14:43:23.000Z" itemprop="datePublished">2021-12-30</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -129,45 +129,35 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="normal7"><a href="#normal7" class="headerlink" title="normal7"></a>normal7</h1><p>又是一道安卓逆向，用jeb打开，发现jeb过期了，下了个jeb-patch补了一下。</p>
-<p><img src="/2021/12/25/normal7/image-20211225184537268.png"></p>
-<p>发现字符串，很像是base64变表，又找到：</p>
-<p><img src="/2021/12/25/normal7/image-20211225184622617.png"></p>
-<p>用base64试一下，</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">t1=<span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span></span><br><span class="line">t2=<span class="string">&#x27;αβγδεζηθικλμνξοπρσ89+/さしすせそたちτυφχψω012345てとゐなにぬねの67つっはひふへほゑま;;;&#x27;</span></span><br><span class="line">data=<span class="string">&quot;すひ6ねτ3/7しはξ2すつιのν92φτひ/なしひξねたさ+ψιρ;;&quot;</span></span><br><span class="line">result = <span class="string">&#x27;&#x27;</span></span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> ch <span class="keyword">in</span> data:</span><br><span class="line">  result += t1[t2.index(ch)]</span><br><span class="line">result = <span class="built_in">bytearray</span>(base64.b64decode(result+<span class="string">&quot;==&quot;</span>))</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>成功了bytearray(b’clover_Sec2019_wel_come!!\x0f&lt;’)</p>
-<p>这里有几点要注意，在jeb得反编译中不可copy，只能在strings中来copy。</p>
-<p>而且变表是不全的，所以要进行一下补充“ ； ； ；”</p>
-
+        <h1 id="Base64编码详解："><a href="#Base64编码详解：" class="headerlink" title="Base64编码详解："></a>Base64编码详解：</h1><p>这么几个月了，最近做了好多题，也有好多很隐蔽的base64，所以有必要深刻的了解一下base64的编码原理了。</p>
+<h2 id="一、base64编码规则："><a href="#一、base64编码规则：" class="headerlink" title="一、base64编码规则："></a>一、base64编码规则：</h2><p>第一步，将待转换的字符串每三个字节分为一组，每个字节占8bit，那么共有24个二进制位。<br>第二步，将上面的24个二进制位每6个一组，共分为4组。<br>第三步，在每组前面添加两个0，每组由6个变为8个二进制位，总共32个二进制位，即四个字节。<br>第四步，根据Base64编码对照表（见下图）获得对应的值。<br><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20211230225536687.png" alt="image-20211230225536687"></p>
+<p>就是先转换成二进制，分6分切开，再在前面补两个0，变成9位，算索引，找表即可。</p>
+<p>第一步：“M”、“a”、”n”对应的ASCII码值分别为77，97，110，对应的二进制值是01001101、01100001、01101110。如图第二三行所示，由此组成一个24位的二进制字符串。<br>第二步：如图红色框，将24位每6位二进制位一组分成四组。<br>第三步：在上面每一组前面补两个0，扩展成32个二进制位，此时变为四个字节：00010011、00010110、00000101、00101110。分别对应的值（Base64编码索引）为：19、22、5、46。<br>第四步：用上面的值在Base64编码表中进行查找，分别对应：T、W、F、u。因此“Man”Base64编码之后就变为：TWFu。</p>
+<p>那么有时候会出现“==”是什么情况呢？</p>
+<h2 id="二、base64的补位"><a href="#二、base64的补位" class="headerlink" title="二、base64的补位"></a>二、base64的补位</h2><p>当只有一个字符时，不足24位，那么后面就需要补0，不存在的位就需要” = “来取代。</p>
+<p><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20211230230239216.png" alt="image-20211230230239216"></p>
+<p>上图很好的表示了补位。</p>
+<h2 id="三、base58，base32，base16"><a href="#三、base58，base32，base16" class="headerlink" title="三、base58，base32，base16"></a>三、base58，base32，base16</h2><p>base64是切成6份，base32是切成5份，同理base16切成4份。</p>
+<p>base58编码方式显然是不一样的，采用辗转相除:</p>
+<p>如要将1234转换为58进制；</p>
+<p>第一步：1234除于58，商21，余数为16，查表得H</p>
+<p>第二步：21除于58，商0，余数为21，查表得N</p>
+<p>所以得到base58编码为：NH</p>
+<h2 id="四、代码表示"><a href="#四、代码表示" class="headerlink" title="四、代码表示"></a>四、代码表示</h2>
       </section>
 
       
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-    <div class="card-text">
-      
-        <a href="/2021/12/29/normal9-13/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">normal9-13</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
     <div class="card-text">
       
-        <a href="/2021/12/24/normal6/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">normal6</h2>
+        <a href="/2021/12/30/noraml14-17/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">noraml14-17</h2>
         </a>
       
       <div class="card-text--row">Older</div>
