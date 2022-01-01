@@ -143,7 +143,17 @@
 <p>第一步：1234除于58，商21，余数为16，查表得H</p>
 <p>第二步：21除于58，商0，余数为21，查表得N</p>
 <p>所以得到base58编码为：NH</p>
-<h2 id="四、代码表示"><a href="#四、代码表示" class="headerlink" title="四、代码表示"></a>四、代码表示</h2>
+<h2 id="四、代码表示"><a href="#四、代码表示" class="headerlink" title="四、代码表示"></a>四、代码表示</h2><p>base64的C语言的代码有很明显的特征，我们只需要找到“ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/”字符串即可，有时候又会变表，那么我们给出一个python变表脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">t1=<span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span></span><br><span class="line">t2=<span class="string">&#x27;nopqrstuvwxyzabcdefghijklm0123456789ABCDEFGHIJKL+/MNOPQRSTUVWXYZ&#x27;</span></span><br><span class="line">data=<span class="string">&quot;OBufaa21Td86rWS8Wob8iGhZYocbr5vxZfcCoWv3&quot;</span></span><br><span class="line">result = <span class="string">&#x27;&#x27;</span></span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> ch <span class="keyword">in</span> data:</span><br><span class="line">  result += t1[t2.index(ch)]</span><br><span class="line">result = <span class="built_in">bytearray</span>(base64.b64decode(result+<span class="string">&quot;==&quot;</span>))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(result)):</span><br><span class="line">    flag+=<span class="built_in">chr</span>(result[i])</span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="RSA详细介绍："><a href="#RSA详细介绍：" class="headerlink" title="RSA详细介绍："></a>RSA详细介绍：</h1><p>在极客的时候做了好几道RSA的题，现在来详细介绍一下。</p>
+<h2 id="一、生成密钥过程"><a href="#一、生成密钥过程" class="headerlink" title="一、生成密钥过程"></a>一、生成密钥过程</h2><p>首先选择两个不相等的质数，分别为p和q，然后算出p<em>q为n，n就是密钥长度。计算欧拉函数，如果n是质数，则 φ(n)=n-1，所以φ(3233) = φ(61x53) = φ(61)φ(53)=60x52=3120。接下来选择一个整数e，且e与φ(n)互质。然后计算模反元素，所谓“模反元素”就是指有一个整数d，可以使得ed除以φ(n)的余数为1，公式表示：</em>e<strong>d*≡1(*m**o</strong>d<strong>φ*(<em>n</em>))，即*e</strong>d<em>–</em>k<em><em>φ</em>(<em>n</em>)=1，所以公钥是</em><em>(n,e)**,私钥*</em>(n,d)**，则公钥可以发布，私钥自己留着。</p>
+<h2 id="二、反解密钥过程"><a href="#二、反解密钥过程" class="headerlink" title="二、反解密钥过程"></a>二、反解密钥过程</h2><p>直接给出脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> libnum <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">n=<span class="number">103461035900816914121390101299049044413950405173712170434161686539878160984549</span></span><br><span class="line">c=<span class="number">0xad939ff59f6e70bcbfad406f2494993757eee98b91bc244184a377520d06fc35</span></span><br><span class="line">e=<span class="number">65537</span></span><br><span class="line">p=<span class="number">366669102002966856876605669837014229419</span></span><br><span class="line">q=<span class="number">282164587459512124844245113950593348271</span></span><br><span class="line">phi=(p-<span class="number">1</span>)*(q-<span class="number">1</span>)</span><br><span class="line">d=gmpy2.invert(e,phi)</span><br><span class="line">flag=<span class="built_in">pow</span>(c,<span class="built_in">int</span>(d),n)</span><br><span class="line"><span class="built_in">print</span>(n2s(flag))</span><br></pre></td></tr></table></figure>
+
+
       </section>
 
       
@@ -312,7 +322,7 @@
       
     </div>
      
-    <p>&copy; 2021 <a href="/" target="_blank">Jonathan</a></p>
+    <p>&copy; 2022 <a href="/" target="_blank">Jonathan</a></p>
 
     
 
