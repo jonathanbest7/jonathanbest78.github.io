@@ -130,12 +130,12 @@
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <h1 id="Base64编码详解："><a href="#Base64编码详解：" class="headerlink" title="Base64编码详解："></a>Base64编码详解：</h1><p>这么几个月了，最近做了好多题，也有好多很隐蔽的base64，所以有必要深刻的了解一下base64的编码原理了。</p>
-<h2 id="一、base64编码规则："><a href="#一、base64编码规则：" class="headerlink" title="一、base64编码规则："></a>一、base64编码规则：</h2><p>第一步，将待转换的字符串每三个字节分为一组，每个字节占8bit，那么共有24个二进制位。<br>第二步，将上面的24个二进制位每6个一组，共分为4组。<br>第三步，在每组前面添加两个0，每组由6个变为8个二进制位，总共32个二进制位，即四个字节。<br>第四步，根据Base64编码对照表（见下图）获得对应的值。<br><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20211230225536687.png" alt="image-20211230225536687"></p>
+<h2 id="一、base64编码规则："><a href="#一、base64编码规则：" class="headerlink" title="一、base64编码规则："></a>一、base64编码规则：</h2><p>第一步，将待转换的字符串每三个字节分为一组，每个字节占8bit，那么共有24个二进制位。<br>第二步，将上面的24个二进制位每6个一组，共分为4组。<br>第三步，在每组前面添加两个0，每组由6个变为8个二进制位，总共32个二进制位，即四个字节。<br>第四步，根据Base64编码对照表（见下图）获得对应的值。<br><img src="/2021/12/30/RSA-BASE64-AES/image-20211230225536687.png"></p>
 <p>就是先转换成二进制，分6分切开，再在前面补两个0，变成9位，算索引，找表即可。</p>
 <p>第一步：“M”、“a”、”n”对应的ASCII码值分别为77，97，110，对应的二进制值是01001101、01100001、01101110。如图第二三行所示，由此组成一个24位的二进制字符串。<br>第二步：如图红色框，将24位每6位二进制位一组分成四组。<br>第三步：在上面每一组前面补两个0，扩展成32个二进制位，此时变为四个字节：00010011、00010110、00000101、00101110。分别对应的值（Base64编码索引）为：19、22、5、46。<br>第四步：用上面的值在Base64编码表中进行查找，分别对应：T、W、F、u。因此“Man”Base64编码之后就变为：TWFu。</p>
 <p>那么有时候会出现“==”是什么情况呢？</p>
 <h2 id="二、base64的补位"><a href="#二、base64的补位" class="headerlink" title="二、base64的补位"></a>二、base64的补位</h2><p>当只有一个字符时，不足24位，那么后面就需要补0，不存在的位就需要” = “来取代。</p>
-<p><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20211230230239216.png" alt="image-20211230230239216"></p>
+<p><img src="/2021/12/30/RSA-BASE64-AES/image-20211230230239216.png"></p>
 <p>上图很好的表示了补位。</p>
 <h2 id="三、base58，base32，base16"><a href="#三、base58，base32，base16" class="headerlink" title="三、base58，base32，base16"></a>三、base58，base32，base16</h2><p>base64是切成6份，base32是切成5份，同理base16切成4份。</p>
 <p>base58编码方式显然是不一样的，采用辗转相除:</p>
@@ -149,10 +149,40 @@
 
 
 <h1 id="RSA详细介绍："><a href="#RSA详细介绍：" class="headerlink" title="RSA详细介绍："></a>RSA详细介绍：</h1><p>在极客的时候做了好几道RSA的题，现在来详细介绍一下。</p>
+<p>RSA是一种非对称加密。</p>
 <h2 id="一、生成密钥过程"><a href="#一、生成密钥过程" class="headerlink" title="一、生成密钥过程"></a>一、生成密钥过程</h2><p>首先选择两个不相等的质数，分别为p和q，然后算出p<em>q为n，n就是密钥长度。计算欧拉函数，如果n是质数，则 φ(n)=n-1，所以φ(3233) = φ(61x53) = φ(61)φ(53)=60x52=3120。接下来选择一个整数e，且e与φ(n)互质。然后计算模反元素，所谓“模反元素”就是指有一个整数d，可以使得ed除以φ(n)的余数为1，公式表示：</em>e<strong>d*≡1(*m**o</strong>d<strong>φ*(<em>n</em>))，即*e</strong>d<em>–</em>k<em><em>φ</em>(<em>n</em>)=1，所以公钥是</em><em>(n,e)**,私钥*</em>(n,d)**，则公钥可以发布，私钥自己留着。</p>
 <h2 id="二、反解密钥过程"><a href="#二、反解密钥过程" class="headerlink" title="二、反解密钥过程"></a>二、反解密钥过程</h2><p>直接给出脚本：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> libnum <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">n=<span class="number">103461035900816914121390101299049044413950405173712170434161686539878160984549</span></span><br><span class="line">c=<span class="number">0xad939ff59f6e70bcbfad406f2494993757eee98b91bc244184a377520d06fc35</span></span><br><span class="line">e=<span class="number">65537</span></span><br><span class="line">p=<span class="number">366669102002966856876605669837014229419</span></span><br><span class="line">q=<span class="number">282164587459512124844245113950593348271</span></span><br><span class="line">phi=(p-<span class="number">1</span>)*(q-<span class="number">1</span>)</span><br><span class="line">d=gmpy2.invert(e,phi)</span><br><span class="line">flag=<span class="built_in">pow</span>(c,<span class="built_in">int</span>(d),n)</span><br><span class="line"><span class="built_in">print</span>(n2s(flag))</span><br></pre></td></tr></table></figure>
 
+<h1 id="AES详细介绍："><a href="#AES详细介绍：" class="headerlink" title="AES详细介绍："></a>AES详细介绍：</h1><p>是一种常见的对称加密方式：加密和解密用到的密钥是相同的，这种加密方式加密速度非常快，适合经常发送数据的场合。缺点是密钥的传输比较麻烦。AES加密由明文，密钥，加密函数，密文，AES解密函数组成。加密函数是将明文和密钥作为参数传进函数中的，</p>
+<h2 id="一、加密"><a href="#一、加密" class="headerlink" title="一、加密"></a>一、加密</h2><p>AES为分组密码，分组密码也就是把明文分成一组一组的，每组长度相等，每次加密一组数据，直到加密完整个明文。在AES标准规范中，分组长度只能是128位，也就是说，每个分组为16个字节（每个字节8位）。</p>
+<p><img src="/2021/12/30/RSA-BASE64-AES/image-20220102104413475.png"></p>
+<p>假设这里使用128位的密钥，加密10轮</p>
+<p>设P位明文，我们知道明文是16个字节，我们将这16个字节搞成4×4的矩阵，矩阵的排列顺序为从上到下、从左至右。再将明文矩阵换成对应ascii码成为状态矩阵.</p>
+<p><img src="/2021/12/30/RSA-BASE64-AES/image-20220102105751411.png"></p>
+<p>密钥的加密是不一样的</p>
+<p>128位密钥也是用字节为单位的矩阵表示，矩阵的每一列被称为1个32位比特字。通过密钥编排函数该密钥矩阵被扩展成一个44个字组成的序列W[0],W[1], … ,W[43],该序列的前4个元素W[0],W[1],W[2],W[3]是原始密钥，用于加密运算中的初始密钥加（下面介绍）;后面40个字分为10组，每组4个字（128比特）分别用于10轮加密运算中的轮密钥加，如下图所示：</p>
+<p><img src="/2021/12/30/RSA-BASE64-AES/image-20220102110114528.png"></p>
+<p>AES加密分为4个步骤：字节代换、行位移、列混合和轮密钥加</p>
+<h3 id="1、字节代换"><a href="#1、字节代换" class="headerlink" title="1、字节代换"></a>1、字节代换</h3><p>AES字节代换是一个查表的操作。AES定义了一个S盒和逆S盒。</p>
+<p>S盒是一个16×16的表格，我们怎么进行查取呢，一个字节是8位，我们取高4位作为行值，低4位作为列值，按照表格进行查询，然后替换。</p>
+<h3 id="2、行移位"><a href="#2、行移位" class="headerlink" title="2、行移位"></a>2、行移位</h3><p>行移位是一个简单的左循环移位操作。当密钥长度为128比特时，状态矩阵的第0行左移0字节，第1行左移1字节，第2行左移2字节，第3行左移3字节，如下图所示：</p>
+<p><img src="/2021/12/30/RSA-BASE64-AES/image-20220102114413545.png"></p>
+<h3 id="3、列混合"><a href="#3、列混合" class="headerlink" title="3、列混合"></a>3、列混合</h3><p> 列混合的操作是通过矩阵相乘实现，但乘法实际上是异或</p>
+<p><img src="/2021/12/30/RSA-BASE64-AES/image-20220102121452605.png"></p>
+<p><img src="/2021/12/30/RSA-BASE64-AES/image-20220102123222633.png"></p>
+<h3 id="4、轮密钥加"><a href="#4、轮密钥加" class="headerlink" title="4、轮密钥加"></a>4、轮密钥加</h3><p>使用P和密钥进行异或，以列位单位，对应位置异或，对应下标相等异或。</p>
+<p><img src="/2021/12/30/RSA-BASE64-AES/image-20220102122830101.png"></p>
+<h2 id="二、密钥扩展"><a href="#二、密钥扩展" class="headerlink" title="二、密钥扩展"></a>二、密钥扩展</h2><p>我们知道密钥总共存在44列，前4列是我们给出的16位密钥分成的4列，那么后面40列每4列是经过一轮AES函数所搞出来的</p>
+<p>这个44矩阵的每一列的4个字节组成一个字，矩阵4列的4个字依次命名为W[0]、W[1]、W[2]和W[3]，它们构成一个以字为单位的数组W。例如，设密钥K为”abcdefghijklmnop”,则K0 = ‘a’,K1 = ‘b’, K2 = ‘c’,K3 = ‘d’,W[0] = “abcd”。<br>接着，对W数组扩充40个新列，构成总共44列的扩展密钥数组。新列以如下的递归方式产生：<br>1.如果i不是4的倍数，那么第i列由如下等式确定：<br>W[i]=W[i-4]⨁W[i-1]<br>2.如果i是4的倍数，那么第i列由如下等式确定：<br>W[i]=W[i-4]⨁T(W[i-1])<br>其中，T是一个有点复杂的函数。<br>函数T由3部分组成：字循环、字节代换和轮常量异或，这3部分的作用分别如下。<br>a.字循环：将1个字中的4个字节循环左移1个字节。即将输入字[b0, b1, b2, b3]变换成[b1,b2,b3,b0]。<br>b.字节代换：对字循环的结果使用S盒进行字节代换。<br>c.轮常量异或：将前两步的结果同轮常量Rcon[j]进行异或，其中j表示轮数。<br>轮常量Rcon[j]是一个字，其值见下表。</p>
+<p><img src="/2021/12/30/RSA-BASE64-AES/image-20220102124119529.png"></p>
+<p>下面举个例子：<br>设初始的128位密钥为：<br>3C A1 0B 21 57 F0 19 16 90 2E 13 80 AC C1 07 BD<br>那么4个初始值为：<br>W[0] = 3C A1 0B 21<br>W[1] = 57 F0 19 16<br>W[2] = 90 2E 13 80<br>W[3] = AC C1 07 BD<br>下面求扩展的第1轮的子密钥(W[4],W[5],W[6],W[7])。<br>由于4是4的倍数，所以：<br>W[4] = W[0] ⨁ T(W[3])<br>T(W[3])的计算步骤如下：</p>
+<p>循环地将W[3]的元素移位：AC C1 07 BD变成C1 07 BD AC;<br>将 C1 07 BD AC 作为S盒的输入，输出为78 C5 7A 91;<br>将78 C5 7A 91与第一轮轮常量Rcon[1]进行异或运算，将得到79 C5 7A 91，因此，T(W[3])=79 C5 7A 91，故<br>W[4] = 3C A1 0B 21 ⨁ 79 C5 7A 91 = 45 64 71 B0<br>其余的3个子密钥段的计算如下：<br>W[5] = W[1] ⨁ W[4] = 57 F0 19 16 ⨁ 45 64 71 B0 = 12 94 68 A6<br>W[6] = W[2] ⨁ W[5] =90 2E 13 80 ⨁ 12 94 68 A6 = 82 BA 7B 26<br>W[7] = W[3] ⨁ W[6] = AC C1 07 BD ⨁ 82 BA 7B 26 = 2E 7B 7C 9B<br>所以，第一轮的密钥为 45 64 71 B0 12 94 68 A6 82 BA 7B 26 2E 7B 7C 9B。</p>
+<h2 id="三、解密"><a href="#三、解密" class="headerlink" title="三、解密"></a>三、解密</h2><h3 id="1、字节代换-1"><a href="#1、字节代换-1" class="headerlink" title="1、字节代换"></a>1、字节代换</h3><p>查逆S盒</p>
+<h3 id="2、行移位-1"><a href="#2、行移位-1" class="headerlink" title="2、行移位"></a>2、行移位</h3><p>行移位的逆变换是将状态矩阵中的每一行执行相反的移位操作，例如AES-128中，状态矩阵的第0行右移0字节，第1行右移1字节，第2行右移2字节，第3行右移3字节。</p>
+<h3 id="3、列混合-1"><a href="#3、列混合-1" class="headerlink" title="3、列混合"></a>3、列混合</h3><p><img src="/2021/12/30/RSA-BASE64-AES/image-20220102124750895.png"></p>
+<p>左乘的为逆变换矩阵，逆变换矩阵与变换矩阵乘积为单位矩阵</p>
+<h3 id="4、轮密钥加-1"><a href="#4、轮密钥加-1" class="headerlink" title="4、轮密钥加"></a>4、轮密钥加</h3><p>轮密钥加的逆运算同正向的轮密钥加运算完全一致</p>
 
       </section>
 
