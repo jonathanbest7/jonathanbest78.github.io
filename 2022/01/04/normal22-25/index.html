@@ -22,7 +22,7 @@
 
   
 
-  <title>ReverseCorePrinciple2 | Jonathan的小窝</title>
+  <title>normal22-25 | Jonathan的小窝</title>
 
   
 
@@ -96,11 +96,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">ReverseCorePrinciple2</h1>
+          <h1 class="title-wrap">normal22-25</h1>
           <h2 class="title-sub-wrap">
             <strong>Jonathan</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-12-18T11:33:57.000Z" itemprop="datePublished">2021-12-18</time>
+            <time  class="article-date" datetime="2022-01-04T05:08:07.000Z" itemprop="datePublished">2022-01-04</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -129,151 +129,21 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="PE文件"><a href="#PE文件" class="headerlink" title="PE文件"></a>PE文件</h1><p>一、PE文件是指win下32位可执行文件，64位的PE文件叫做PE32+，PE文件包括：可执行文件exe，scr；库文件dll，ocx，cpl，drv；驱动程序系列：sys，vxd；对象文件系列：obj。除了obj其他都是可执行文件。PE文件分为头和体，从DOS头到节区头Section 属于头部，剩下是体。在文件中用offset偏移表示地址，在内存中用VA表示，这两个的运算很重要。文件的内容是有代码.text，数据.data，资源.rsrc节，分别保存。注意，在PE头和各节区尾部存在NULL区域，这是为了遵守最小基本单位原则，因为要让文件或者内存节的起始位置在最小单位的倍数上，所以需要NULL填充。</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/Untitled.png"></p>
-<p>二、VA和RVA</p>
-<p>VA 是虚拟内存绝对地址   RVA是相对虚拟地址   ImageBase是基准地址</p>
-<p>所以有RVA+ImageBase=VA</p>
-<p>PE头文件中一般都是RVA，因为dll文件的调用会占位置，正如调试so文件一样，需要算真实地址。</p>
-<p>三、PE头</p>
-<p>1、DOS头</p>
-<p>IMAGE_DOS_HEADER结构体位于PE文件最前面，大小64位</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/image-20211218193756591.png"></p>
-<p>e_magic是签名，e_lfanew指示了NT头的offset，在intel中采用小端序</p>
-<p>2、DOS存根</p>
-<p>DOS存根（stub），是由代码和数据组成，可有可无。</p>
-<p>3、NT头</p>
-<p>IMAGE_NT_HEADERS</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/image-20211218193827675.png"></p>
-<p>signature签名，File Header文件头，Optional Header可选头</p>
-<p>3.1、NT头，文件头</p>
-<p>IMAGE_FILE_HEADER</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/image-20211218193854482.png"></p>
-<p>四个成员：Machine，每个cpu有独有的Machine码；NumberOfSections，文件中节区数量；SizeOfOptionalHeader，指出可选头结构体长度，PE32+用64位的结构体，所以需要查看其长度；Characteristics，查看文件属性。</p>
-<p>TimeDataStamp:时间戳</p>
-<p>3.2、NT头，可选头</p>
-<p>该头是32位PE文件中最大的</p>
-<p>Magic，32位是10B，64位是20B;AddressOfEntryPoint，含有EP的RVA;ImageBase，</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/image-20211218193912587.png"></p>
-<p>SectionAlignment，指定节区在内存中的最小单位；</p>
-<p>FileAlignment，指定节区在磁盘文件中最小单位；</p>
-<p>SizeOfImage，指定PE Image在虚拟内存中占空间大小；</p>
-<p>SizeOfHeaders，指出PE头大小；</p>
-<p>Subsystem，其值用来区分系统驱动文件.sys与普通可执行文件 .exe .dll；</p>
-<p>NumberOfRvaAndSizes，指出DataDirectory的数组大小；</p>
-<p>DataDirectory这个数组中比较重要的是：IMPORT和EXPORT Directory、</p>
-<p>4、节区头：存有各个节区的属性IMAGE_SECTION_HEADER</p>
-<p>VA,PTRD由NT中的可选头定义在SectionAlignment和FileAlignment</p>
-<p>VirtualSize和SizeOfRawData的值不同，因为磁盘文件节区大小和内存中的是不一样的</p>
-<p>NAME字段，不用以NULL结尾，不用限制是ascii，所以只作为参考</p>
-<p>RAW = RVA - VA+ PTRD</p>
-<p>求RAW的过程：先用RVA+ImageBase来判断RVA在内存的哪个节区，算VA，VA=内存起始地址-ImageBase，再算PTRD=文件偏移。最后套公式算出RAW（偏移量）。</p>
-<p>按理说VA指的是在OD里能看到的地址,但这里应该是省去了VA=内存起始地址-ImageBase这一步，该处的VA并不是用RVA加出来的，而是用该段的VA-基址</p>
-<p><strong>RVA，VA:</strong></p>
-<p>RVA:(RelativeVirtual Address简称RVA),RVA只是内存中的一个简单的相对于PE文件装入地址的偏移位置，或称为偏移量。</p>
-<p>公式: VA(401000h) - 装入地址(Imagebase)400000h=RVA1000h</p>
-<p>建议参考这篇文章</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/oBuYiSeng/article/details/50419081?ops_request_misc=%7B%22request_id%22:%22163919453216780271510153%22,%22scm%22:%2220140713.130102334..%22%7D&amp;request_id=163919453216780271510153&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-2-50419081.pc_search_insert_es_download_v2&amp;utm_term=RVA&amp;spm=1018.2226.3001.4187">https://blog.csdn.net/oBuYiSeng/article/details/50419081?ops_request_misc=%7B%22request%5Fid%22%3A%22163919453216780271510153%22%2C%22scm%22%3A%2220140713.130102334..%22%7D&amp;request_id=163919453216780271510153&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-2-50419081.pc_search_insert_es_download_v2&amp;utm_term=RVA&amp;spm=1018.2226.3001.4187</a></p>
-<p>1.判断指定的RVA在那个节中</p>
-<p>2.求得该节的起始地址RVA</p>
-<p>3.求出偏移量Offset=RVA-节起始RVA</p>
-<p>4.FOA = Offset+该节在磁盘中的起始地址</p>
-<p>数据的文件偏移=(数据RVA - 节RVA) + 节的文件偏移</p>
-<p>5、IAT：导入地址表</p>
-<p>5.1、DLL：动态链接库</p>
-<p>DLL单独，不包含在程序中，两种加载方式：</p>
-<p>第一种，显示链接，使用时加载，使用完释放</p>
-<p>第二种，隐式链接，程序一开始就加载，终止释放内存</p>
-<p>有一个小问题，我们再执行一些库函数时，是先跳转到一个地址，然后再用该地址的值跳转到该函数，为什么不直接跳转到该函数？因为再系统和执行环境不同时，那个函数的地址是不准确的，所以我们要规定一个地方来存储那个函数的值！</p>
-<p>另外PE头中不使用VA，而是用RVA.</p>
-<p>5.2、IMAGE_IMPORT_DESCRIPTOR</p>
-<p>记录该程序导出哪些库文件</p>
-<p>该结构体被称为IMPORT Directory Table，查找位置在PE头，而存在于PE体！</p>
-<p>1、Name：显示函数所属库文件名称</p>
-<p>2、OriginalFirstThunk-INT：导入函数信息的指针数组</p>
-<p>3、IMAGE_IMPORT_BY_NAME:INT每个地址都指向该结构体</p>
-<p>4、FirstThunk-IAT：IAT的第一个值会被真实地址所替代</p>
-<p>6、EAT</p>
-<p>它使不同的程序调用库文件提供的函数。</p>
-<p>压缩：</p>
-<p>压缩分为无损和有损</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/image-20211218193938507.png"></p>
-<p>UPX也属于压缩器，保护器还能防止逆向分析</p>
-<p>基本知识补充：</p>
-<p>在程序开头，call edi是获取ImageBase，ctrl+F8快速F8，点F7退出</p>
-<p>如何查找upx加密过的EP代码，有以下几种方法：</p>
-<p>1、一步一步跟进，ctrl+F8找到循环，用F2下断点退出循环，再找到jmp大幅度的地方，基本锁定是EP。IAT的恢复过程：</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/image-20211218193958778.png"></p>
-<p>2、ESP定律，设置硬件断点：</p>
-<p>进入程序直接定位到，pushad。</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/image-20211218194013069.png"></p>
-<p>我们F8，pushad将eax到edi寄存器的值全部存储过去，我们用寄存器的ESP，右键数据窗口显示，</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/image-20211218194040726.png"></p>
-<p>选中数据右键设硬件断点，硬件访问—》word，设置完然后F9，找到jmpF8就行了</p>
-<p>这就是常用的方法。</p>
-<p>原理：UPX的特征之一，其EP代码包含在pushad和popad之间，并且jmp的命令出现在popad之后。</p>
-<p>硬编码:  硬编码是将数据直接嵌入到程序或其他可执行对象的源代码中的软件开发实践，与从外部获取数据或在运行时生成数据不同。</p>
-<p>PE重定位，其实和so文件在ida中定位是一样的：</p>
-<p>我们使用010editor来查看文件内部ImageBase的值，在nt头的option下查看，在option下data结构体中的第6项查看IMAGE_BASE_RELOCATION（基址重定位表）的RVA，那么怎么找到这个结构体呢？</p>
-<p>我们用PEview打开文件找到RVA值对应的段，一般都在.reloc</p>
-<p>找到后，我们发现VA和TypeOffset（16位），TypeOffset前4位是类型，后12位才是偏移： VA+OFFSET=RVA,求出RVA后看内存中的ImageBase加起来就是我们在OD中的地址！</p>
-<p>删除.reloc节：</p>
-<p>exe文件删不删都没问题，但dll和sys删了就出事了。</p>
-<p>先在PEview中NT下查看IMAGE_SECTION_HEADER.reloc:</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/image-20211218194058963.png"></p>
-<p>注意270处是.reloc节区头，其大小是到294，PTRD的数据是.reloc的节区，我们用hexo editor直接找到位置删除就行，或者用nop填充.接下来还需要进行数据的修改,要把file头中的Number of Sections项减去1,因为少了1个节区,还要修改IMAGE_OPTIONAL_HEADER的size of image,我们找到.reloc节区头的SectionAlignment,用size of image-=SectionAlignment就行了</p>
-<p>UPack的·PE头特征：</p>
-<p>1、重叠文件头nt头的位置是由e_lfanew决定，在压缩中值为10，会导致DOS和NT头重合。</p>
-<p>2、FILE头的SizeOfOptionalHeader（为了计算optional头的偏移）,UPACK将文件头下的OPTIONAL头的结构体改大，为了在Optional头和Section头中添加一段解码代码。</p>
-<p>3、OPTIONAL头中的NumberOfRvaAndSizes代表结构体数组的数量，正常数组是有10h，但改完有A个，就是少了5个，所以从A后的数组全部被改为UPACK自己的代码。</p>
-<p>4、在SECTION头中，如果有不需要用的数据，Upack是可以将其改成自己的代码，与第3点相似。</p>
-<p>5、第5点通过语言不好描述：简单来说就是节区重叠，看似违反PE规定，但在内存中又重新恢复，所以并不违反。</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/image-20211218194120770.png"></p>
-<p>6、RVA to RAW是一个bug，正常来说PTRD是FileAlignment的整数倍，但FileAlignment为200，PTRD却只有10，那么如果要是整数倍，PTRD就要等于0。这就导致算RAW时算错。</p>
-<p>7、导入表：PE的规范是，导入表由IMPORT结构体和最后一个内容NULL组成，但在Upack中第一个结构体后不是结构体，也不是NULL，但在映射到内存的时候，又会出现NULL，也就符合了规范。</p>
-<p>内嵌补丁：在难以修改指定代码的时候，比如代码被压缩等情况下，插入”洞穴代码“并运行补丁代码。</p>
-<p>我们知道，在这种动态压缩的情况下，我们如果直接查找要修改的字符串，很大可能是不行的，因为我们并没有让压缩的文件进行解码，所以我们必须让程序运行到解码区。</p>
-<p>内嵌补丁打法：</p>
-<p>1、寻找补丁设置位置，三种方法：（1）设置文件空白区域（2）拓展最后节区后设置（3）添加新节区后设置</p>
-<p>代码少的时候用方法（1），其他时候用法（2）或者（3）</p>
-<p>法一：</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/image-20211218194142497.png"></p>
-<p>那么对应内存上的地址，如图：</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/image-20211218194204300.png"></p>
-<p>2、在od中找到需要patch的地方401280，在该处进行下列操作：</p>
-<p><img src="/2021/12/18/ReverseCorePrinciple2/image-20211218194224699.png"></p>
-<p>3、执行补丁</p>
-<p>将jmp跳转到该处即可，但我们还需要将jmp处的加密区域的字符改为加密前的字符，我们可以通过动态调试将源码找到，这样经过解码后就是我们想要的了！</p>
-<p>总结：本章节晦涩难懂，需要反复学习，要懂得怎么操作！</p>
-
+        
       </section>
 
       
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-    <div class="card-text">
-      
-        <a href="/2021/12/19/s1mp1e3/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">s1mp1e3</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
     <div class="card-text">
       
-        <a href="/2021/12/17/s1mp1e1/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">s1mp1e1</h2>
+        <a href="/2022/01/03/normal18-21/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">(no title)</h2>
         </a>
       
       <div class="card-text--row">Older</div>
