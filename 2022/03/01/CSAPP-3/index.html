@@ -22,7 +22,7 @@
 
   
 
-  <title>s1mp1e3 | Jonathan的小窝</title>
+  <title>CSAPP-3 | Jonathan的小窝</title>
 
   
 
@@ -96,11 +96,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">s1mp1e3</h1>
+          <h1 class="title-wrap">CSAPP-3</h1>
           <h2 class="title-sub-wrap">
             <strong>Jonathan</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-12-19T02:45:49.000Z" itemprop="datePublished">2021-12-19</time>
+            <time  class="article-date" datetime="2022-03-01T10:58:50.000Z" itemprop="datePublished">2022-03-01</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -129,29 +129,52 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="s1mp1e3"><a href="#s1mp1e3" class="headerlink" title="s1mp1e3"></a>s1mp1e3</h1><p>这道题实际上就是要找到递归算法：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">__int64 __fastcall <span class="title">main</span><span class="params">(<span class="keyword">int</span> a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;Input flag:&quot;</span>);</span><br><span class="line">  __isoc99_scanf(<span class="string">&quot;%64s&quot;</span>, &amp;a);</span><br><span class="line">  b = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">fun2</span>(<span class="number">0LL</span>);</span><br><span class="line">  <span class="keyword">if</span> ( !<span class="built_in">strcmp</span>(&amp;s1, <span class="string">&quot;bcec8d7dcda25d91ed3e0b720cbb6cf202b09fedbc3e017774273ef5d5581794&quot;</span>) )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">memset</span>(&amp;s1, <span class="number">0</span>, <span class="number">0x80</span>uLL);</span><br><span class="line">    b = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">fun</span>(<span class="number">0LL</span>);</span><br><span class="line">    <span class="keyword">if</span> ( !<span class="built_in">strcmp</span>(&amp;s1, <span class="string">&quot;7d8dcdcaed592e1dcb07e02c36bcb2f0bf9e0bdcb0e13777237e25fd48515974&quot;</span>) )</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;TQL! TQL! flag: nctf&#123;%s&#125;\n&quot;</span>, &amp;a);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">&quot;Emmmm.....&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0LL</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;GG!&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0LL</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="CSAPP-3"><a href="#CSAPP-3" class="headerlink" title="CSAPP-3"></a>CSAPP-3</h1><p>从这章开始，开始接触汇编和机器语言！这章比上一章看的舒服点。</p>
+<h2 id="3-1、程序编码"><a href="#3-1、程序编码" class="headerlink" title="3.1、程序编码"></a>3.1、程序编码</h2><p>在linux系统编码c语言指令需要掌握：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linux&gt; gcc -Og -o p p1.c</span><br></pre></td></tr></table></figure>
 
-<p>我们跟进fun和fun2函数，发现这就是个算法，二者是很像的，所以想到一个好主意，我们只要随便输一个字符串，然后观察进入这个函数后改字符串位置变化，就可以倒推找到原码。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">int64 __fastcall <span class="title">fun2</span><span class="params">(<span class="keyword">int</span> a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> v1; <span class="comment">// eax</span></span><br><span class="line">  __int64 result; <span class="comment">// rax</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> ( a1 &lt;= <span class="number">63</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v1 = b++;</span><br><span class="line">    *(&amp;s1 + v1) = a[a1];</span><br><span class="line">    <span class="built_in">fun2</span>((<span class="keyword">unsigned</span> <span class="keyword">int</span>)(<span class="number">2</span> * a1 + <span class="number">1</span>));</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">fun2</span>((<span class="keyword">unsigned</span> <span class="keyword">int</span>)(<span class="number">2</span> * (a1 + <span class="number">1</span>)));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">int64 __fastcall <span class="title">fun</span><span class="params">(<span class="keyword">int</span> a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> v1; <span class="comment">// eax</span></span><br><span class="line">  __int64 result; <span class="comment">// rax</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> ( a1 &lt;= <span class="number">63</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">fun</span>((<span class="keyword">unsigned</span> <span class="keyword">int</span>)(<span class="number">2</span> * a1 + <span class="number">1</span>));</span><br><span class="line">    v1 = b++;</span><br><span class="line">    *(&amp;s1 + v1) = a[a1];</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">fun</span>((<span class="keyword">unsigned</span> <span class="keyword">int</span>)(<span class="number">2</span> * (a1 + <span class="number">1</span>)));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>我们动态调试一下，输入下面的信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">abcdefghijklmnop</span><br><span class="line">qrstuvwsyzABCDEF</span><br><span class="line">GHIJKLMNOPQRSTUV</span><br><span class="line">WXYZ0123456789+=</span><br></pre></td></tr></table></figure>
-
-<p>经过fun2函数得到下面的字符串。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">abdhpF=GqHIirJKs</span><br><span class="line">LMejtNOuPQkvRSwT</span><br><span class="line">UcflsVWyXYmzZ0A1</span><br><span class="line">2gnB34C56oD78E9+</span><br></pre></td></tr></table></figure>
-
-<p>我们的fun2变过后的字符串：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">bcec8d7dcda25d91</span><br><span class="line">ed3e0b720cbb6cf2</span><br><span class="line">02b09fedbc3e0177</span><br><span class="line">74273ef5d5581794</span><br></pre></td></tr></table></figure>
-
-<p>则我们原来的字符串：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">bc2e3b4c2eb03258</span><br><span class="line">c5102bf9de77f57d</span><br><span class="line">ddad9edb70c6c20f</span><br><span class="line">ebc01773e5d81947</span><br></pre></td></tr></table></figure>
-
-<p>​        这样就得到了flag</p>
-<p>nctf{bc2e3b4c2eb03258c5102bf9de77f57dddad9edb70c6c20febc01773e5d81947}       </p>
-<p>其实，想一下，如果是逆算法的话，也不过是把位置顺序逆出来，其实跟我这样是没有差别的。</p>
+<h3 id="3-1-1、机器代码"><a href="#3-1-1、机器代码" class="headerlink" title="3.1.1、机器代码"></a>3.1.1、机器代码</h3><p>程序计数器：通常称为P，在x86-64通常用%rip来表示。</p>
+<p>整数寄存器文件包含16个命名的位置，分别存储64位的值</p>
+<p>条件码寄存器保存最近执行的算数或者逻辑运算，如实现if或while语句</p>
+<p>一组向量寄存器可存放一个或多个整数或浮点数</p>
+<h2 id="3-2数据格式"><a href="#3-2数据格式" class="headerlink" title="3.2数据格式"></a>3.2数据格式</h2><p>在intel中规定字代表16位，双字代表32位，四字代表64位</p>
+<p><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220303220910142.png" alt="image-20220303220910142"></p>
+<p><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220303221116240.png" alt="image-20220303221116240"></p>
+<p>计算机永远是占用内存越小越好，比如一个数是int，只用不到4位，那么这个数就是按4个位算。用不到32位。</p>
+<h2 id="3-3、操作数"><a href="#3-3、操作数" class="headerlink" title="3.3、操作数"></a>3.3、操作数</h2><p>三种操作数：</p>
+<p>1.立即数，用$555表示</p>
+<p>2.寄存器，16位寄存器用低字节寄存器作为操作数</p>
+<p>3.内存引用，用【】表示内存引用</p>
+<p><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220303224704891.png" alt="image-20220303224704891"></p>
+<p>这样的运算是需要掌握的</p>
+<h3 id="3-3-1、数据传送指令"><a href="#3-3-1、数据传送指令" class="headerlink" title="3.3.1、数据传送指令"></a>3.3.1、数据传送指令</h3><p>mov指令，mov a，b：是将a传送到b。</p>
+<p><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220304123732270.png" alt="image-20220304123732270"></p>
+<p>我们把指令后的第一个数据称为源操作数，第二个数据为目的操作数，下面是5种用法</p>
+<p><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220304123936154.png" alt="image-20220304123936154"></p>
+<p>访问寄存器比访问内存快，所以一般将局部变量保存在寄存器中</p>
+<h3 id="3-3-2、压入和弹出栈数据"><a href="#3-3-2、压入和弹出栈数据" class="headerlink" title="3.3.2、压入和弹出栈数据"></a>3.3.2、压入和弹出栈数据</h3><p>栈是一种数据结构，可以添加或者删除值，要遵循后进先出的原则，用push将数据压入栈中，用pop删除数据，存在属性：弹出之永远是最近被压入而且仍然在栈中的值。，永远记得这个只有一个操作数：</p>
+<p>push %rbp完全等价于sub 8，%rsp    mov %rbp， （%rsp），也就是说在push的时候就已经开辟了空间</p>
+<p><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220304125453591.png" alt="image-20220304125453591"></p>
+<h2 id="3-4、算数和逻辑操作"><a href="#3-4、算数和逻辑操作" class="headerlink" title="3.4、算数和逻辑操作"></a>3.4、算数和逻辑操作</h2><p>add一样也是4个指令addb，addw，addl，addq</p>
+<p><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220304125624929.png" alt="image-20220304125624929"></p>
+<p>其中lea主要是加载地址，上述所有运算几乎都是将源操作数与目的操作数进行运算后存入目的操作数。</p>
+<h3 id="3-4-1、加载有效地址"><a href="#3-4-1、加载有效地址" class="headerlink" title="3.4.1、加载有效地址"></a>3.4.1、加载有效地址</h3><p>lea目的操作数必须是一个寄存器</p>
+<p><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220304130326450.png" alt="image-20220304130326450"></p>
+<h3 id="3-4-2、一元和二元操作数"><a href="#3-4-2、一元和二元操作数" class="headerlink" title="3.4.2、一元和二元操作数"></a>3.4.2、一元和二元操作数</h3><p>这个操作数既是源操作数还是目的操作数，比如inc（%rsp）让栈顶+1，相当于++</p>
+<p>二元操作，第二个操作数既是源又是目的，很像x-=y    sub %rax,%rdx是让rdx-rax的值</p>
+<h3 id="3-4-3、移位操作"><a href="#3-4-3、移位操作" class="headerlink" title="3.4.3、移位操作"></a>3.4.3、移位操作</h3><p>左移：sal，shl无差别</p>
+<p>右移：sar（算数移位）shr（逻辑移位）</p>
+<h3 id="3-4-4、特殊算数操作"><a href="#3-4-4、特殊算数操作" class="headerlink" title="3.4.4、特殊算数操作"></a>3.4.4、特殊算数操作</h3><p><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220304132847111.png" alt="image-20220304132847111"></p>
+<h2 id="3-5、控制"><a href="#3-5、控制" class="headerlink" title="3.5、控制"></a>3.5、控制</h2><h3 id="3-5-1、条件码"><a href="#3-5-1、条件码" class="headerlink" title="3.5.1、条件码"></a>3.5.1、条件码</h3><p>CF：进位标志。最近的操作使最高位产生进位。可用来检查无符号操作的溢出</p>
+<p>ZF：零标志。最近的操作得出结果为0.</p>
+<p>SF：符号标志。最近的操作得到的结果为负数。</p>
+<p>OF：溢出标志。最近的操作导致一个补码溢出–正溢出活着负溢出</p>
+<p>比如test %rax，%rax就是检查%rax是负数，0，还是正数。</p>
+<p>如cmp的比较可以确定范围从而进行循环</p>
+<h3 id="3-5-2、访问条件码"><a href="#3-5-2、访问条件码" class="headerlink" title="3.5.2、访问条件码"></a>3.5.2、访问条件码</h3><p>条件码使用三种方法：</p>
+<p>1.可以根据条件码的某种组合，将一个字节设为0或者1</p>
+<p>2.可以跳转到程序的其他部分</p>
+<p>3.可以有条件的传送数据</p>
 
       </section>
 
@@ -164,8 +187,8 @@
     
     <div class="card-text">
       
-        <a href="/2021/12/20/s1mp1e2/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">s1mp1e2</h2>
+        <a href="/2022/03/02/CSAPP-LAB/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">CSAPP-LAB</h2>
         </a>
       
       <div class="card-text--row">Newer</div>
@@ -179,8 +202,8 @@
     
     <div class="card-text">
       
-        <a href="/2021/12/18/ReverseCorePrinciple2/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">ReverseCorePrinciple2</h2>
+        <a href="/2022/02/28/LC-3/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">LC-3</h2>
         </a>
       
       <div class="card-text--row">Older</div>
