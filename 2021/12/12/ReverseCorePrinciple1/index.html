@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="Jonathan">
+  
+
+  
+
+  
+
+  <title>ReverseCorePrinciple1 | Jonathan的小窝</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/bitbug_favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/pojoaque.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://qiniu.sukoshi.xyz/src/images/68686407_p0.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          Jonathan的小窝
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+          <li class="navbar-list-item"><a href="/tags">标签</a></li>
+        
+          <li class="navbar-list-item"><a href="/categories">分类</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">ReverseCorePrinciple1</h1>
+          <h2 class="title-sub-wrap">
+            <strong>Jonathan</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2021-12-12T09:40:03.000Z" itemprop="datePublished">2021-12-12</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h1 id="逆向工程核心原理"><a href="#逆向工程核心原理" class="headerlink" title="逆向工程核心原理"></a>逆向工程核心原理</h1><h2 id="第一章-代码逆向技术基础"><a href="#第一章-代码逆向技术基础" class="headerlink" title="第一章 代码逆向技术基础"></a>第一章 代码逆向技术基础</h2><p>先对hello，world进行分析</p>
+<p>代码窗口：对于反汇编的呈现</p>
+<p>寄存器窗口：显示且可以修改寄存器的值</p>
+<p>数据窗口：以unicode/ascii/hex显示地址，可修改</p>
+<p>栈窗口：显示ESP指向的栈内存，可改</p>
+<p>ESP：栈指针寄存器，其内存放着一个指针，该指针永远指向系统栈最上面</p>
+<p>启动函数与所用的编译器是有关的，所以不同编译器的启动函数是不同的。我们的目标是找到用户代码的start处，也就是main函数处，我们可以通过一直点F7,遇到函数就步入，来查看是否又api调用。</p>
+<p>当然这显然不如查找字符串那么快。</p>
+<p>对于栈为什么会存在，有一篇文章写的很好；<a target="_blank" rel="noopener" href="https://blog.csdn.net/yu132563/article/details/51598185?ops_request_misc=%7B&quot;request_id&quot;:&quot;163877204316780269837356&quot;,&quot;scm&quot;:&quot;20140713.130102334..&quot;%7D&amp;request_id=163877204316780269837356&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-51598185.pc_search_mgc_flag&amp;utm_term=%E6%A0%88%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8&amp;spm=1018.2226.3001.4187">https://blog.csdn.net/yu132563/article/details/51598185?ops_request_misc={&quot;request_id&quot;%3A&quot;163877204316780269837356&quot;%2C&quot;scm&quot;%3A&quot;20140713.130102334..&quot;}&amp;request_id=163877204316780269837356&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-51598185.pc_search_mgc_flag&amp;utm_term=栈有什么用&amp;spm=1018.2226.3001.4187</a> 简单的说有几点存在的意义：</p>
+<p>1.传参的问题，cpu的寄存器是有限的，当函数内再想调用子函数的时候，再使用原有的cpu寄存器就会冲突了。想利用寄存器传参，就必须在调用子函数前吧寄存器存储起来，然后当函数退出的时候再恢复。</p>
+<p>2.函数嵌套，子函数的参数存在什么位置，需要考虑。</p>
+<p>3.多线程操作，有了栈对于数据的存储，能够在多线程中来回切换！</p>
+<p>API解析；API（Application Programming Interface,应用程序编程接口）是一些预先定义的函数，目的是提供应用程序与开发人员基于某软件或硬件得以访问一组例程的能力，而又无需访问源码，或理解内部工作机制的细节。</p>
+<p>就是运用别人写的函数或程序。。。。可以在网上查阅各种API函数的作用</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple1/image-20211212173230608.png"></p>
+<p>常用指令汇总：</p>
+<p>ctrl+F2 ，重启调试</p>
+<p>F8： 步过</p>
+<p>F7： 步进</p>
+<p>F9：运行</p>
+<p>ctrl+F9： 循环到return，跳出</p>
+<p>“；”  ：添加注释</p>
+<p>F2：设置或者取消断点</p>
+<p>ctrl+g ：跳转地址</p>
+<p>ctrl +E : 编辑数据</p>
+<p>常用汇编：</p>
+<p>call：调用函数；</p>
+<p>jmp： 跳转，eg：jmp 004034243</p>
+<p>INC：值+1</p>
+<p>DEC：值-1</p>
+<p>XOR：异或，常用两个相同的值进行初始化，也用作return 0；</p>
+<p>JMP：跳转指定地址</p>
+<p>CMP：只比较，不改变数值，但EFLAGS改变，其中ZF为1，则跳转</p>
+<p>JE：ZF为1跳转</p>
+<p>SUB：前面的参数减后面的参数，一般是ESP-X为了给参数开辟空间</p>
+<p>TEST：逻辑比较</p>
+<p>1、lea eax，[addr]</p>
+<p>就是将表达式addr的值放入eax寄存器，示例如下：</p>
+<p>lea eax,[401000h]; 将值401000h写入eax寄存器中</p>
+<p>lea指令右边的操作数表示一个精指针，上述指令和mov eax，401000h是等价的</p>
+<p>2、lea eax，dword ptr [ebx];将ebx的值赋值给eax</p>
+<p>3、lea eax，c；其中c为一个int型的变量，该条语句的意思是把c的地址赋值给eax；</p>
+<p>push寄存器：将一个寄存器中的数据入栈</p>
+<p>pop寄存器：出栈用一个寄存器接收数据</p>
+<p>push 源数据 //push指令可以分解为两条更基本的汇编指令: //–sub $指针移动长度 %rsp        //栈指下移 //–mov 源数据 （%rsp）    //推入数据至栈顶</p>
+<p>pop 目标地址 //pop指令等同于： //–mov （%rsp）目标地址        //数据出栈 //–add $指针移动长度 %rsp    //指针上移</p>
+<p>四种查找指定代码的方式： 第一种：代码执行法，就是一直F8直到弹出交互框，但这种方法缺点很明显，对于长代码无能为力。</p>
+<p>第二种：字符串检索法，这个已经很熟悉了，打开程序看有什么字符串，在定位到指定位置，相当方便。</p>
+<p>第三种：API调用1：右键——》search for——-》ALL intermodular call</p>
+<p>查找对应API函数。</p>
+<p>第四种：API调用2：右键——》search for——-》Name in all modules</p>
+<p>用于未能调用出API函数的情况，即有压缩器等情况，与so文件调试有点相似</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple1/image-20211212173311038.png"></p>
+<p>函数在40100E被调用，执行完返回401014</p>
+<p>如何打补丁，我尝试过用c32asm打过补丁，学一下怎么用od来修改：</p>
+<p>两种方法：</p>
+<p>第一种：修改字符串缓冲区</p>
+<p>我们在数据窗口对指定字符串用ctrl+E进行修改，但字符串过长，就有溢出风险。</p>
+<p>004092A0  48 00 65 00 6C 00 6C 00 6F 00 20 00 52 00 65 00  H.e.l.l.o. .R.e. 004092B0  76 00 65 00 72 00 73 00 69 00 6E 00 67 00 21 00  v.e.r.s.i.n.g.!. 004092C0  48 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  H…………… 004092D0  00 00 00 00 00 00 00 00 00 00 00 00 00 00        …………..</p>
+<p>第二种: 传递字符串：</p>
+<p>我们采用间接方法，我们找到调用原字符串的指令，push 0x4092A0，然后再找到一个NULL区域，我们将NULL区域填充字符串，将push处调用该NULL字符串首地址即可。</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple1/image-20211212173347402.png"></p>
+<p>大端序和小端序针对1字节以上的才有区分，1字节时没有区别，比如char ch []=”adfsaf”,大端序和小端序没有区别!</p>
+<p>大端序：内存低地址存在高位，内存高地址存储在低位。</p>
+<p>小端序，低地址在低位，高地址在低位。</p>
+<p>在输出flag时常常遇到这种问题，我们的解决方法有两种，在网上找反转的网址，或者使用print(flag[::-1])，将flag倒置。</p>
+<p>寄存器：</p>
+<p>一、通用寄存器</p>
+<p>为了让在我们存储时能更加方便的保留有效的空间做其他事，</p>
+<p>比如EAX—-》32位，AX——-》EAX的低16位，AH——》AX的高8位，AL——&gt;AX的低8位</p>
+<p>寄存器类型：</p>
+<p>EAX：累加器（针对操作数和结果数据的）</p>
+<p>EBX：基址寄存器（DS段的数据指针，DS段是用来存放访问数据的段地址.)</p>
+<p>ECX：计数器(字符串和循环操作)</p>
+<p>EDX：数据寄存器(I/O指针)</p>
+<p>EBP：扩展基址指针寄存器（SS段中栈内数据指针）</p>
+<p>ESI：源变址寄存器（字符串操作源指针）</p>
+<p>EDI：目的变址寄存器（字符串操作目标指针）</p>
+<p>ESP：栈指针寄存器（SS中栈指针）</p>
+<p>ECX在循环中运用，每次循环一轮后减1，EAX在函数返回值出现。</p>
+<p>ESP指向当前栈顶，EBP表是栈的基地址，比如，调用函数先保留ESP，函数结束再返回ESP,即栈帧技术。在深入理解一下ESP,EBP,在栈寄存器中前两列是有意义的，EBP在进入下一个函数前会push ebp，就是备份储存在第二列，第一列是当前函数esp。而esp的第一列保存其第一列的值，而第二列是在第一列的值下存储的地址，而该地址存储数据。</p>
+<p>二、段寄存器（比较难理解）</p>
+<p>段是用来保护内存的一种技术。可以结合paging将虚拟内存转换为物理内存。段记录再SDT，段寄存器中有记录的索引。</p>
+<p>CS：代码段寄存器（存放应用程序代码所在段的段基址）</p>
+<p>SS：栈段寄存器（存放栈段段基址）</p>
+<p>DS：数据段寄存器（存放段基址）</p>
+<p>ES：附加段寄存器</p>
+<p>FS：数据段寄存器（处理SEH，TEB,PEB)</p>
+<p>GS：数据段寄存器</p>
+<p>三、程序状态与控制寄存器</p>
+<p>EFLAGS：标志寄存器（32位)</p>
+<p>其中代表ZF，当判断结果为0，那么ZF=1，反之。</p>
+<p>OF有整数符号溢出，值为1；CF无整数符号溢出，值为1.</p>
+<p>四、指令指针寄存器</p>
+<p>EIP：指令指针寄存器（凡是缩写前面带E的多为，16为转变成的32位）</p>
+<p>执行过程：cpu读取EIP中指令，指令进入缓冲区，存储在eip的值增加，增加的大小是指令字节大小，进行下一条指令读取。</p>
+<p>栈</p>
+<p>栈是栈顶在上，栈底在下，栈是有高地址到低地址，从上往下运行，ESP开始指向栈底，被push后就往栈顶走。当参数被压入栈时，在前的参数后压入栈。（FILO）</p>
+<p>函数执行完，栈中的函数是不用清除的，当下一个函数中的·参数进入时，直接覆盖掉。</p>
+<p>栈帧技术：是在调用函数时，先将ESP的值交给EBP，让EBP来储存一个标准，也就是函数返回地址，但这样写很容易被栈溢出修改return的地址！</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple1/image-20211212173413635.png"></p>
+<p><img src="/2021/12/12/ReverseCorePrinciple1/image-20211212173427292.png"></p>
+<p>上图代表：local 1有一块内存，就跟指针一样。dword是4字节，word是2字节，byte是1字节。可以理解为创造两个变量a,b。</p>
+<p>调用函数时，先将上面a，b两个参数放在寄存器中，然后push，push后再call函数，进入函数先把返回地址压入，汇编有一点时很奇怪的·，它将用完的全局变量也会即使清除，我想这是因为寄存器少的原因吧。</p>
+<p>Visual  Basic文件，一般vb文件的运行是需要调用其dll库中的函数，所以该exe文件中有dll文件。</p>
+<p>*<a target="_blank" rel="noopener" href="http://www.eepw.com.cn/news/listbylabel/label/GUI">GUI</a>*的全称为Graphical User Interface，图形化界面或图形用户接口，是指采用图形方式显示的计算机操作环境用户接口。</p>
+<p>ESP的清理，当函数执行完毕，ESP要恢复到调用前的值，这样栈的大小不会改变。</p>
+<p>三种方法：</p>
+<p>1、cdecl，调用者处理栈，比如main中有参数，main来处理参数</p>
+<p>2、stdcall，也是调用者处理栈，如果想用：int _stdcall add(int x,int y),有点是兼容性比cdecl强。</p>
+<p>3、fastcall，是通过寄存器来清除，因为寄存器是比内存快的</p>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2021/12/13/BuildWLS2/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">BuildWLS2</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2021/12/03/Geek2021/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Geek2021</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "jonathanbest7",
+        appKey: "Qxf15838819318",
+        avatar: "mm",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="https://s.gravatar.com/avatar/2d6b803eea37de0257620d5fabee7e64?s=200&amp;r=g&amp;d=retro" class="soft-size--round soft-style--box" alt="Jonathan">
+    
+    
+      <h2>Jonathan</h2>
+    
+    
+      <p>不以物喜，不以己悲</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>39</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+<section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-notice" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 945.02305225v28.15620663a24.27259221 24.27259221 0 0 1-24.27259221 24.27259335H394.0352a48.54518557 48.54518557 0 0 1-41.74885888-23.78714112l-110.68302222-184.47170332a132.04290333 132.04290333 0 0 1-17.47626667-48.54518557h118.4502511a200.97706667 200.97706667 0 0 1 76.21594113 14.56355556l20.38897777 133.49925888a48.54518557 48.54518557 0 0 0 36.40888888 27.67075555l16.01991111 2.91271112a24.27259221 24.27259221 0 0 1 20.38897778 25.72894889zM997.45185223 463.45481443a194.18074112 194.18074112 0 0 1-38.8361489 116.50844445 24.75804445 24.75804445 0 0 1-36.4088889 0l-34.95253333-34.95253333a24.27259221 24.27259221 0 0 1-2.91271111-30.58346667 97.09036999 97.09036999 0 0 0 0-106.79940665 24.27259221 24.27259221 0 0 1 2.91271111-30.58346666l34.95253333-34.95253334a24.75804445 24.75804445 0 0 1 18.93262223-7.28177777 26.2144 26.2144 0 0 1 17.47626667 9.70903665A194.18074112 194.18074112 0 0 1 997.45185223 463.45481443z m-194.18074112-388.36148111v776.72296335a48.54518557 48.54518557 0 0 1-48.54518556 48.54518443h-28.64165888a48.54518557 48.54518557 0 0 1-33.98163001-14.07810332l-145.63555556-143.20829668A291.27111111 291.27111111 0 0 0 342.57730333 657.63555556H172.18370333a145.63555556 145.63555556 0 0 1-145.63555556-145.63555556v-97.09036999a145.63555556 145.63555556 0 0 1 145.63555556-145.63555556h170.3936a291.27111111 291.27111111 0 0 0 206.31703779-85.43952668l145.63555555-143.20829554a48.54518557 48.54518557 0 0 1 33.98162888-14.07810446H754.72592555a48.54518557 48.54518557 0 0 1 48.54518556 48.54518555z" fill="currentColor"></path>
+</svg>
+    <span>NOTICE</span>
+  </div>
+  <div class="widget-body">
+    <p>QQ:506611735</p>
+  </div>
+</section>
+
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+          <a href="https://www.zhihu.com/people/bang-ji-1" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg t="1587373160860" class="icon icon-zhihu" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M544.949 561.422s0-71.387-34.779-75.050c-34.779-3.663-142.775 0-142.775 0v-219.654h161.078s-1.83-73.219-32.949-73.219h-261.755l43.93-117.148s-65.897 3.663-89.692 45.761-98.844 252.604-98.844 252.604 25.627 10.983 67.726-20.134c42.101-31.116 56.743-86.033 56.743-86.033l76.879-3.663 1.83 223.316s-133.621-1.83-161.078 0c-27.457 1.83-42.101 75.050-42.101 75.050h203.182s-18.307 124.47-69.557 214.164c-53.085 89.692-151.929 161.078-151.929 161.078s71.387 29.287 140.947-10.983c69.557-42.101 120.811-223.316 120.811-223.316l162.912 203.182s14.643-97.013-1.83-124.47c-18.307-27.457-113.49-137.283-113.49-137.283l-42.101 36.607 29.287-120.811h177.552zM587.050 188.010l-1.83 660.793h65.897l23.795 82.37 115.321-82.37h162.912v-660.793h-366.091zM879.92 775.584h-76.879l-97.013 75.050-21.965-75.050h-20.134v-512.527h215.991v512.527z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+        
+          <a href="https://github.com/jonathanbest7" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2022 <a href="/" target="_blank">Jonathan</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
