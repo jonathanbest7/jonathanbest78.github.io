@@ -133,7 +133,18 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        
+        <h1 id="DASCTF"><a href="#DASCTF" class="headerlink" title="DASCTF"></a>DASCTF</h1><h2 id="re"><a href="#re" class="headerlink" title="re"></a>re</h2><h3 id="easyre"><a href="#easyre" class="headerlink" title="easyre"></a>easyre</h3><p>一道简单的aspeck壳逆向，但这个是我第一次在ctf赛场上手动脱壳，还是比较有纪念意义的，本来想搞个自动的那个软件有点不靠谱，只能手脱了，手脱我们根据esp定律进行脱壳</p>
+<p><img src="/2022/03/26/DASCTF2022/image-20220326172330854.png" alt="image-20220326172330854"></p>
+<p>定位到pushad，然后f7发现右侧寄存器只有esp是红色</p>
+<p><img src="/2022/03/26/DASCTF2022/image-20220326172710520.png" alt="image-20220326172710520"></p>
+<p><img src="/2022/03/26/DASCTF2022/image-20220326172829784.png" alt="image-20220326172829784"></p>
+<p>然后就在esp处下硬件断点，点f9运行，然后一直f8直到出现下面的画面</p>
+<p><img src="/2022/03/26/DASCTF2022/image-20220326173305225.png" alt="image-20220326173305225"></p>
+<p>然后右键ollydump,改一下值，dump出来就行了</p>
+<p><img src="/2022/03/26/DASCTF2022/image-20220326173610148.png" alt="image-20220326173610148"></p>
+<p>后面就是一个异或，soeasy</p>
+<h3 id="login"><a href="#login" class="headerlink" title="login"></a>login</h3><p>在前一篇socket里已经介绍过了</p>
+
       </section>
 
       
