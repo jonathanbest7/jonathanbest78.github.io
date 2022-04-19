@@ -133,7 +133,7 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="CSAPP-7-END"><a href="#CSAPP-7-END" class="headerlink" title="CSAPP-7-END"></a>CSAPP-7-END</h1><h2 id="第七章"><a href="#第七章" class="headerlink" title="第七章"></a>第七章</h2><p>链接时将各种代码和数据片段收集并组合成为一个单一文件的过程，这个文件可以被加载到内存并执行。链接可以执行于编译时，也可以执行与加载时，甚至可以执行于运行时。在现代系统中，链接是由链接器程序自动执行。</p>
+        <h1 id="CSAPP-7-END"><a href="#CSAPP-7-END" class="headerlink" title="CSAPP-7-END"></a>CSAPP-7-END</h1><h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p>链接时将各种代码和数据片段收集并组合成为一个单一文件的过程，这个文件可以被加载到内存并执行。链接可以执行于编译时，也可以执行与加载时，甚至可以执行于运行时。在现代系统中，链接是由链接器程序自动执行。</p>
 <p>链接可以是软件开发中分离编译</p>
 <h3 id="7-1、编译器驱动程序"><a href="#7-1、编译器驱动程序" class="headerlink" title="7.1、编译器驱动程序"></a>7.1、编译器驱动程序</h3><p>main.c执行过程：先通过c预处理器，成为ascii码编写的main.i程序，接下来由c编译器将其编为ascii汇编语言文件main.s，然后汇编器将其变成可重定位目标文件main.o，如果需要链接，最后运行链接器ld，将必要文件链接，成为可执行文件，在shell里运行需要调用loader即加载器。</p>
 <h3 id="7-2、静态链接"><a href="#7-2、静态链接" class="headerlink" title="7.2、静态链接"></a>7.2、静态链接</h3><p>链接器的两大任务：</p>
@@ -213,6 +213,135 @@
 <p><img src="/2022/03/17/csapp-s2e/image-20220330192218540.png" alt="image-20220330192218540"></p>
 <p><img src="/2022/03/17/csapp-s2e/image-20220330192224264.png" alt="image-20220330192224264"></p>
 <h3 id="7-13、库打桩机制"><a href="#7-13、库打桩机制" class="headerlink" title="7.13、库打桩机制"></a>7.13、库打桩机制</h3><p>简单来说就是欺骗系统调用的包装函数，插入自己的函数进去，想拿到什么值都可以。</p>
+<h1 id="异常控制流"><a href="#异常控制流" class="headerlink" title="异常控制流"></a>异常控制流</h1><p>异常控制流指的是：现代系统通过使控制流繁盛突变来对这些情况做出反应，这些突变叫做异常控制流（ECF）。异常控制流发生在计算机的每个层次上，在硬件层上会发生，在操作系统层上，内核通过上下文切换进行进程的切换，在应用层中，一个进程可以发送信号到另一个进程</p>
+<h2 id="8-1、异常"><a href="#8-1、异常" class="headerlink" title="8.1、异常"></a>8.1、异常</h2><p>异常是异常控制流的一种形式，一部分由硬件实现，一部分由操作系统实现。</p>
+<p>当处理器检测到由事件发生时，它会通过一张叫做异常表的跳转表，进行间接的调用，到专门处理此类事件的操作系统子程序，即异常处理程序，处理完成，出现三种情况：</p>
+<p>1.控制返回原指令</p>
+<p>2.返回给原指令，没异常就执行下一条指令</p>
+<p>3.终止被中断的程序</p>
+<h3 id="8-1-1、异常处理"><a href="#8-1-1、异常处理" class="headerlink" title="8.1.1、异常处理"></a>8.1.1、异常处理</h3><p>系统中每种异常都有一个唯一的非负整数的异常号</p>
+<p><img src="/2022/03/17/csapp-s2e/image-20220407161312042.png" alt="image-20220407161312042"></p>
+<p><img src="/2022/03/17/csapp-s2e/image-20220407161502198.png" alt="image-20220407161502198"></p>
+<h3 id="8-1-2、异常的类别"><a href="#8-1-2、异常的类别" class="headerlink" title="8.1.2、异常的类别"></a>8.1.2、异常的类别</h3><p><img src="/2022/03/17/csapp-s2e/image-20220407161528243.png" alt="image-20220407161528243"></p>
+<p>1.中断</p>
+<p>中断是异步，硬件中断的异常处理程序通常称为中断处理程序，</p>
+<p>中断处理将控制返回给应用程序的下一条指令。</p>
+<p>2.陷阱和系统调用</p>
+<p>陷阱是有意的异常，是执行一条指令的结果。返回下一条指令。其最重要的功能是在用户程序和内核之间提供一个像过程一样的接口，叫做系统调用。</p>
+<p>读取文件，创建新的进程，加载新的程序，结束程序都要像内核请求</p>
+<p>3.故障</p>
+<p>故障由错误引起，当发生故障时，交给故障处理程序。它会返回引起故障的指令，重新执行</p>
+<p>4.终止</p>
+<p>终止是不可恢复的致命错误造成的结果，通常是硬件错误。直接终止应用程序</p>
+<h3 id="8-1-3、linux-x86-64的异常"><a href="#8-1-3、linux-x86-64的异常" class="headerlink" title="8.1.3、linux/x86-64的异常"></a>8.1.3、linux/x86-64的异常</h3><p><img src="/2022/03/17/csapp-s2e/image-20220407164830759.png" alt="image-20220407164830759"></p>
+<p>对于linux的系统调用，每个应用想要请求内核服务时，都有唯一一个整数号对应于一个内核中的跳转表的偏移量，c语言用syscall函数来调用系统调用，但实际上对于大多数系统调用，c语言采用包装函数，包装函数将参数打包在一起，以适当系统调用使指令陷入内核。</p>
+<p>系统调用和包装函数统称为系统级函数。在linux的系统调用通常使用寄存器不通过栈传递。</p>
+<p>%rax为系统调用号，剩下rdi，rsi，rdx，r10，r8，r9当参数，rax还返回返回值，-4095到-1的负数返回值表示出错</p>
+<p><img src="/2022/03/17/csapp-s2e/image-20220407165613175.png" alt="image-20220407165613175"></p>
+<h3 id="8-2、进程"><a href="#8-2、进程" class="headerlink" title="8.2、进程"></a>8.2、进程</h3><p>异常是允许操纵系统内核提供进程概念的基本构造块。</p>
+<p>在一个执行中程序的实例就是进程，系统的每个程序都运行在某个进程的上下文中。</p>
+<p>上下文是由程序正确运行所需的状态组成的。这个状态包括放在内存中的程序的代码和数据，它的栈，通用目的寄存器的内容，程序技术器，环境变量以及打开文件描述符号的集合。</p>
+<h3 id="8-2-1、逻辑控制流"><a href="#8-2-1、逻辑控制流" class="headerlink" title="8.2.1、逻辑控制流"></a>8.2.1、逻辑控制流</h3><p>不多解释，已经很清楚</p>
+<p><img src="/2022/03/17/csapp-s2e/image-20220407171051825.png" alt="image-20220407171051825"></p>
+<h3 id="8-2-2、并发流"><a href="#8-2-2、并发流" class="headerlink" title="8.2.2、并发流"></a>8.2.2、并发流</h3><p>一个逻辑流的执行在时间上与另一个流重叠，这个就是字面意思，并发运行就是两个程序运行有时间上的交错。</p>
+<h3 id="8-2-3、私有地址空间"><a href="#8-2-3、私有地址空间" class="headerlink" title="8.2.3、私有地址空间"></a>8.2.3、私有地址空间</h3><p>在一个程序中，进程为其提供自己的私有地址空间，这个空间是不能被别的进程进行r or w。</p>
+<h3 id="8-2-4用户模式和内核模式"><a href="#8-2-4用户模式和内核模式" class="headerlink" title="8.2.4用户模式和内核模式"></a>8.2.4用户模式和内核模式</h3><p>为了使操作系统内核提供一个无懈可击的进程抽象，处理器必须提供一种机制，限制一个应用可以执行的指令以及它可以访问的地址空间范围</p>
+<p>处理器通常使用某个控制寄存器中的一个模式位来提供这种功能，该寄存器在该进程中有特权。当设置了模式位，进程就运行在内核模式中，即超级用户模式。</p>
+<p>用户模式改变为内核模式唯一方法就是通过中断，故障或者陷入系统调用这种异常。</p>
+<p>linux中存在/proc文件系统，可允许用户访问内核数据结构的内容。</p>
+<h3 id="8-2-5、上下文切换"><a href="#8-2-5、上下文切换" class="headerlink" title="8.2.5、上下文切换"></a>8.2.5、上下文切换</h3><p>操作系统内核使用上下文切换的较高层形式的异常控制流来实现多任务。在进程执行的时候，内核可以决定抢占当前进程，这就叫调度，由内核中的调度器代码完成。</p>
+<h2 id="8-3、进程控制"><a href="#8-3、进程控制" class="headerlink" title="8.3、进程控制"></a>8.3、进程控制</h2><h3 id="8-3-1、获取进程ID"><a href="#8-3-1、获取进程ID" class="headerlink" title="8.3.1、获取进程ID"></a>8.3.1、获取进程ID</h3><p>每个进程都有自己的PID。</p>
+<p>getpid函数返回调用进程的PID。</p>
+<p>getppid函数返回它的父进程PID。</p>
+<h3 id="8-3-2、创建和终止进程"><a href="#8-3-2、创建和终止进程" class="headerlink" title="8.3.2、创建和终止进程"></a>8.3.2、创建和终止进程</h3><p>进程总是有三种状态，</p>
+<p>1.运行：要么在cpu上执行，要么就在等待内核的调度</p>
+<p>2.停止：进程执行要么被挂起，且不会调度。当收到sigstop，sigtstp，sigttn或者sigttou时，进程就停止，并且停止直到收到sigcont信号，然后运行</p>
+<p>3.终止：进程停止，进程停止有三种原因：收到信号，return从主函数，exit</p>
+<p>父进程通过调用fork函数创建新子进程，子进程几乎与父进程相同，子进程得到与父进程用户级虚拟地址空间相同的副本，当父进程调用fork时，子进程可以读写父进程中打开的任何文件。父子进程最大区别是PID不同</p>
+<p>fork函数被调用一次，却返回两次，一次在调用父进程中，一次是在新创建的子进程中，父进程中，返回子进程的PID。子进程中返回0，通过返回值我们能直到程序是在父进程中进行还是子进程中执行</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">pid_t</span> pid;<br>    <span class="hljs-keyword">int</span> x = <span class="hljs-number">1</span>;<br>    pid = Fork();<br>    <span class="hljs-keyword">if</span> (pid == <span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;child: x = %d\n&quot;</span>,++x);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>    &#125;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;parent: x = %d\n&quot;</span>,--x);<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在linux下运行，发现先返回parent是0，再返回child是2，那么以下就是几个特性了：</p>
+<p>1.调用1次，返回了两次</p>
+<p>2.并发执行：先返回父进程再返回子进程，但实际上来说并不一定，在另一台机器上就可能不是这样的情况</p>
+<p>3.相同但是独立的地址空间：子进程和父进程的地址空间以及值什么的都相同，我们发现x的值并无变化，所以再两个进程中是独立的过程，不互相影响</p>
+<p>4.共享文件：输出都在屏幕上</p>
+<p><img src="/2022/03/17/csapp-s2e/image-20220407190742632.png" alt="image-20220407190742632"></p>
+<h3 id="8-3-3、回收子进程"><a href="#8-3-3、回收子进程" class="headerlink" title="8.3.3、回收子进程"></a>8.3.3、回收子进程</h3><p><img src="/2022/03/17/csapp-s2e/image-20220407190946484.png" alt="image-20220407190946484"></p>
+<p>如果父进程终止了，内核会安排init进程成为其父进程。init的PID为1，其不会终止时所有进程的祖先。一个进程可以通过waitpid函数来等待其子进程终止或停止。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">pid_t</span> <span class="hljs-title">waitpid</span><span class="hljs-params">(<span class="hljs-keyword">pid_t</span> pid, <span class="hljs-keyword">int</span> *statusp, <span class="hljs-keyword">int</span> options)</span></span><br></code></pre></td></tr></table></figure>
+
+<p>1.pid = -1 ,等待的集合就是父进程的所有子进程</p>
+<p>pid&gt;0，单独子进程，进程ID为pid</p>
+<p>2.修改默认行为</p>
+<p><img src="/2022/03/17/csapp-s2e/image-20220407194955709.png" alt="image-20220407194955709"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">pid_t</span> <span class="hljs-title">wait</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> *statusp)</span></span><br><span class="hljs-function"><span class="hljs-title">wait</span><span class="hljs-params">(&amp;s)</span> 完全等价于 <span class="hljs-title">waitpid</span><span class="hljs-params">(<span class="hljs-number">-1</span>, &amp;s, <span class="hljs-number">0</span>)</span></span><br></code></pre></td></tr></table></figure>
+
+<p>回收顺序时这台电脑的特殊属性，不确定</p>
+<h3 id="8-3-4、进程休眠"><a href="#8-3-4、进程休眠" class="headerlink" title="8.3.4、进程休眠"></a>8.3.4、进程休眠</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> sleep（<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> second）<br></code></pre></td></tr></table></figure>
+
+<p>sleep让一个进程挂起一段时间</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">int</span> pause（<span class="hljs-keyword">void</span>）<br></code></pre></td></tr></table></figure>
+
+<p>让调用函数休眠，征集到该进程接收到一个信号</p>
+<h3 id="8-3-5、加载并运行程序"><a href="#8-3-5、加载并运行程序" class="headerlink" title="8.3.5、加载并运行程序"></a>8.3.5、加载并运行程序</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">int</span> execv（<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *filename, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *argv[],<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *envp[])<br></code></pre></td></tr></table></figure>
+
+<p>该函数加载运行可执行文件filename，且带参数argv和环境变量列表envp，找不到filename就返回其调用程序，这个函数调用一次从不返回。</p>
+<h2 id="8-4、信号"><a href="#8-4、信号" class="headerlink" title="8.4、信号"></a>8.4、信号</h2><p>Linux信号属于软件形式的异常，一个信号就是一个小消息，其通知进程系统种发生了某件类型的事件，如下图：</p>
+<p><img src="/2022/03/17/csapp-s2e/image-20220409213205635.png" alt="image-20220409213205635"></p>
+<p>低层的硬件异常是由内核异常处理程序处理的</p>
+<h3 id="8-4-1、信号术语"><a href="#8-4-1、信号术语" class="headerlink" title="8.4.1、信号术语"></a>8.4.1、信号术语</h3><p>传送一个信号到目的进程由两个步骤组成：</p>
+<p>发送信号：内核通过更新目的进程上下文的状态来发送一个信号给目的进程，或者一个进程调用kill函数，显示的要求内核发信号给目的进程。</p>
+<p>接收信号：当目的进程被内核强迫以某种方式对信号的发送做出反应时，就接受了信号</p>
+<p>一个发出但没接收到的信号叫做待处理信号，一种类型的待处理信号在一个进程中最多只有一个，其余的都被丢弃。当然还可以通过阻塞这种方式选择性接受信号。</p>
+<p>在内核中有一个集合，这个集合有所有信号，一旦接收到信号，这个信号就会从集合中被剔除。</p>
+<h3 id="8-4-2、发送信号"><a href="#8-4-2、发送信号" class="headerlink" title="8.4.2、发送信号"></a>8.4.2、发送信号</h3><p>发送信号的机制基于进程组这个概念</p>
+<p>1.进程组</p>
+<p>每个进程属于一个进程组，进程组是由一个正整数进程组ID来标志的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">pid_t</span> <span class="hljs-title">getpgrp</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;<span class="hljs-comment">//返回当前进程的id</span><br></code></pre></td></tr></table></figure>
+
+<p>默认的，一个子进程和其父进程同属于一个进程组</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">setpgid</span><span class="hljs-params">(<span class="hljs-keyword">pid_t</span> pid, <span class="hljs-keyword">pid_t</span> pgid)</span></span>;<span class="hljs-comment">//若成功返回0，不成功返回-1，该函数可以改变自己和其他进程的进程组</span><br></code></pre></td></tr></table></figure>
+
+<p>pid的进程改为pidg,若pid为0，使用当前进程PID，弱pgid为0，用pid的PID为进程组ID，如果进程15213是调用进程，再把两个参数设为0，会创建新的进程组，其ID是15213，并把这个进程加到新进程组中。</p>
+<p>2.用/bin/kill程序来发送信号</p>
+<p><img src="/2022/03/17/csapp-s2e/image-20220409214918203.png" alt="image-20220409214918203"></p>
+<p><img src="/2022/03/17/csapp-s2e/image-20220409215023731.png" alt="image-20220409215023731"></p>
+<p>4.调用kill函数发送信号</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">kill</span><span class="hljs-params">(<span class="hljs-keyword">pid_t</span> pid, <span class="hljs-keyword">int</span> sig)</span></span>;<br></code></pre></td></tr></table></figure>
+
+<p>若pid大于0，发送信号号码给sig给pid，若等于0发送给进程组每个进程，小于0，发送绝对值的pid到每个进程。</p>
+<p>5.alarm函数发送信号</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">unsigned int alarm(unsigned int secs);//返回前一次闹钟秒数，若未设闹钟则为0<br></code></pre></td></tr></table></figure>
+
+<p>该函数安排内核在secs秒后发送SIGALARM信号给调用进程</p>
+<h3 id="8-4-3、接收信号"><a href="#8-4-3、接收信号" class="headerlink" title="8.4.3、接收信号"></a>8.4.3、接收信号</h3><p>当内核模式变成用户模式时，进程检查未被阻塞的待处理信号的集合，若不为空，该进程接收某个信号，每个信号都有一个预定义默认行为：</p>
+<p>进程终止，进程终止并转储内存，进程挂起直到被SIGCONT信号重启，进程忽略该信号</p>
+<p><img src="/2022/03/17/csapp-s2e/image-20220409220108931.png" alt="image-20220409220108931"></p>
+<h3 id="8-4-4、阻塞和解除阻塞信号"><a href="#8-4-4、阻塞和解除阻塞信号" class="headerlink" title="8.4.4、阻塞和解除阻塞信号"></a>8.4.4、阻塞和解除阻塞信号</h3><p>隐式阻塞机制。内核默认阻塞任何当前处理程序正在处理信号类型的待处理的信号。</p>
+<p>显式阻塞机制。调用函数，来明确阻塞信号</p>
+<p><img src="/2022/03/17/csapp-s2e/image-20220410205254755.png" alt="image-20220410205254755"></p>
+<h3 id="8-4-5、编写信号处理程序"><a href="#8-4-5、编写信号处理程序" class="headerlink" title="8.4.5、编写信号处理程序"></a>8.4.5、编写信号处理程序</h3><p>1.安全的信号处理</p>
+<p>信号处理程序回合主程序和其他信号处理程序并发运行，要注意以下事项：</p>
+<p><img src="/2022/03/17/csapp-s2e/image-20220410205657029.png" alt="image-20220410205657029"></p>
+<p>输出的唯一安全方法是write，还有一些专门开发函数：</p>
+<p><img src="/2022/03/17/csapp-s2e/image-20220410205814914.png" alt="image-20220410205814914"></p>
+<p><img src="/2022/03/17/csapp-s2e/image-20220410210008538.png" alt="image-20220410210008538"></p>
+<p>2.正常信号处理</p>
+<p>未处理的信号是不排队的，直接被丢弃了。</p>
+<p>3.可移植的信号处理</p>
+<p>signal函数语义不同，在一些unix系统上，如信号k被捕获后必须将信号k恢复成默认值，所以每次运行后都要调用signal函数，显式的重新设置自己</p>
+<p>系统调用可以中断，read write accept这些系统调用会阻塞进程一段进程一段时间，称为慢速系统调用</p>
+<p><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220412135816648.png" alt="image-20220412135816648"></p>
+<h3 id="8-4-6、同步流避免并发错误"><a href="#8-4-6、同步流避免并发错误" class="headerlink" title="8.4.6、同步流避免并发错误"></a>8.4.6、同步流避免并发错误</h3><p>看不懂了</p>
+<h3 id="8-4-7、显式地等待信号"><a href="#8-4-7、显式地等待信号" class="headerlink" title="8.4.7、显式地等待信号"></a>8.4.7、显式地等待信号</h3><p>不懂。</p>
+<h2 id="8-5、非本地跳转"><a href="#8-5、非本地跳转" class="headerlink" title="8.5、非本地跳转"></a>8.5、非本地跳转</h2><p>c语言提供一种用户级的异常控制流形式，称为非本地跳转，他将控制直接从一个函数转移到另一个当前正在执行的函数，通过setjmp，longjmp函数来提供。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;setjmp.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-built_in">set</span> <span class="hljs-title">jmp</span><span class="hljs-params">(jmp_buf, env)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sigsetjmp</span><span class="hljs-params">(sigjmp_buf env, <span class="hljs-keyword">int</span> savesigs)</span></span><br></code></pre></td></tr></table></figure>
+
+<p>env保持调用环境，这个函数返回值为0，但不能赋值给变量</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;setjmp.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">longjmp</span><span class="hljs-params">(jmp_buf env, <span class="hljs-keyword">int</span> retval)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">siglongjmp</span><span class="hljs-params">(sigjmp_buf env, <span class="hljs-keyword">int</span> retval)</span></span>;<br></code></pre></td></tr></table></figure>
+
+<h2 id="8-6、操作进程的工具"><a href="#8-6、操作进程的工具" class="headerlink" title="8.6、操作进程的工具"></a>8.6、操作进程的工具</h2><p><img src="../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220412141455743.png" alt="image-20220412141455743"></p>
 
       </section>
 
@@ -301,7 +430,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>39</span>
+        <span>42</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
